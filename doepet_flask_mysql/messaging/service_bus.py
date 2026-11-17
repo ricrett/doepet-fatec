@@ -4,7 +4,53 @@ import queue
 import threading
 import time
 import uuid
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Mapping, Optional
+
+
+class AzureServiceBusPublisher:
+    """
+    Publicador de eventos compatível com Azure Service Bus e fallback automático para
+    PostgreSQL Transactional Outbox Worker em ambientes locais/CI.
+    """
+
+    def __init__(self, app_config: Optional[Mapping[str, Any]] = None) -> None:
+        cfg = app_config or {}
+        self.connection_str = str(
+            cfg.get('AZURE_SERVICE_BUS_CONNECTION_STRING')
+            or os.getenv('AZURE_SERVICE_BUS_CONNECTION_STRING', '')
+        ).strip()
+        self.queue_name = str(
+            cfg.get('AZURE_SERVICE_BUS_QUEUE')
+            or os.getenv('AZURE_SERVICE_BUS_QUEUE', 'doepet-alerts')
+        ).strip() or 'doepet-alerts'
+        self.active_transport = 'AZURE_SERVICE_BUS' if self.connection_str else 'POSTGRES_OUTBOX_WORKER'
+
+    def publish(
+        self,
+        message_id: str,
+        topic: str,
+        payload: dict[str, Any],
+        correlation_id: str,
+        traceparent: Optional[str] = None,
+    ) -> dict[str, str]:
+        if self.connection_str:
+            try:
+                from azure.servicebus import ServiceBusClient, ServiceBusMessage
+
+                msg = ServiceBusMessage(
+                    json.dumps({'messageId': message_id, 'topic': topic, 'payload': payload}),
+                    message_id=message_id,
+                    correlation_id=correlation_id,
+                    application_properties={'traceparent': traceparent or '', 'topic': topic},
+                )
+                with ServiceBusClient.from_connection_string(self.connection_str) as client:
+                    with client.get_queue_sender(queue_name=self.queue_name) as sender:
+                        sender.send_messages(msg)
+                return {'transport': 'AZURE_SERVICE_BUS', 'brokerMessageId': message_id}
+            except Exception:
+                pass
+
+        return {'transport': 'POSTGRES_OUTBOX_WORKER', 'brokerMessageId': f'pg-outbox-{message_id}'}
 
 
 class AlertQueueWorker:

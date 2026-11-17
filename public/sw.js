@@ -14,7 +14,7 @@ self.addEventListener('push', (event) => {
   let payload = {
     title: 'DoePet — Alerta de Emergência Veterinária',
     body: 'Uma clínica próxima precisa de doação de sangue compatível com seu pet.',
-    url: '/',
+    url: './',
     tag: 'doepet-blood-need',
     needId: null,
     correlationId: null,
@@ -31,13 +31,13 @@ self.addEventListener('push', (event) => {
 
   const options = {
     body: payload.body,
-    icon: '/icon.svg',
-    badge: '/icon.svg',
+    icon: './icon.svg',
+    badge: './icon.svg',
     tag: payload.tag || 'doepet-blood-need',
     renotify: true,
     requireInteraction: true,
     data: {
-      url: payload.url || '/',
+      url: payload.url || './',
       needId: payload.needId,
       correlationId: payload.correlationId,
     },

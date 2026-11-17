@@ -17,7 +17,7 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
     return null;
   }
   try {
-    return await navigator.serviceWorker.register('/sw.js', { scope: '/' });
+    return await navigator.serviceWorker.register('./sw.js', { scope: './' });
   } catch {
     return null;
   }
@@ -106,8 +106,8 @@ export function connectNotificationStream(
         void navigator.serviceWorker.ready.then((reg) => {
           void reg.showNotification(payload.title, {
             body: payload.body,
-            icon: '/icon.svg',
-            badge: '/icon.svg',
+            icon: './icon.svg',
+            badge: './icon.svg',
             tag: payload.needId ? `need-${payload.needId}` : 'doepet-push',
           });
         });

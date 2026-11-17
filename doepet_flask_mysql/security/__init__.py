@@ -1,4 +1,14 @@
-from doepet_flask_mysql.security.key_vault import KeyVaultKeyProvider
+from doepet_flask_mysql.security.key_vault import KeyVaultKeyProvider, SecretVault, secret_vault
+from doepet_flask_mysql.security.jwt_service import (
+    clear_auth_cookies,
+    generate_access_jwt,
+    issue_token_pair,
+    revoke_all_user_tokens,
+    revoke_refresh_token_family,
+    set_auth_cookies,
+    verify_access_token,
+    verify_refresh_token_and_rotate,
+)
 from doepet_flask_mysql.security.jwt_auth import (
     ACCESS_TTL_SECONDS,
     REFRESH_COOKIE_NAME,
@@ -10,11 +20,20 @@ from doepet_flask_mysql.security.jwt_auth import (
     require_roles,
     set_refresh_cookie,
     clear_refresh_cookie,
-    verify_access_token,
 )
 
 __all__ = [
     'KeyVaultKeyProvider',
+    'SecretVault',
+    'secret_vault',
+    'generate_access_jwt',
+    'issue_token_pair',
+    'verify_access_token',
+    'verify_refresh_token_and_rotate',
+    'revoke_refresh_token_family',
+    'revoke_all_user_tokens',
+    'set_auth_cookies',
+    'clear_auth_cookies',
     'ACCESS_TTL_SECONDS',
     'REFRESH_COOKIE_NAME',
     'REFRESH_TTL_SECONDS',
@@ -25,5 +44,4 @@ __all__ = [
     'require_roles',
     'set_refresh_cookie',
     'clear_refresh_cookie',
-    'verify_access_token',
 ]

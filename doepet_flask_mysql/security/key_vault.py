@@ -1,8 +1,10 @@
 import base64
 import hashlib
 import os
+import threading
 from dataclasses import dataclass
 from functools import lru_cache
+from typing import Any, Mapping, Optional, Tuple
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
 
@@ -74,7 +76,6 @@ class KeyVaultKeyProvider:
                 client = KeyClient(vault_url=kv_url, credential=DefaultAzureCredential())
                 kv_key = client.get_key(key_name)
                 if kv_key and kv_key.key:
-                    # Fallback to managed PEM pair if remote sign is delegated
                     pass
             except Exception:
                 pass
@@ -98,3 +99,69 @@ class KeyVaultKeyProvider:
                 source='ephemeral-rsa2048',
             )
         )
+
+
+class SecretVault:
+    """
+    Provedor unificado de chaves JWT com suporte a rotacao de chaves (JWT_PREVIOUS_SECRET_KEY)
+    e fallback para Azure Key Vault em producao.
+    """
+
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._cache: dict[str, str] = {}
+
+    def clear_cache(self) -> None:
+        with self._lock:
+            self._cache.clear()
+        KeyVaultKeyProvider.from_env.cache_clear()
+
+    def _resolve_primary(self, kind: str, config: Optional[Mapping[str, Any]] = None) -> str:
+        cfg = config or {}
+        if kind == 'refresh':
+            raw = (
+                cfg.get('JWT_REFRESH_SECRET_KEY')
+                or os.getenv('JWT_REFRESH_SECRET_KEY')
+                or cfg.get('JWT_SECRET_KEY')
+                or os.getenv('JWT_SECRET_KEY')
+                or cfg.get('SECRET_KEY')
+                or os.getenv('SECRET_KEY')
+                or 'doepet-jwt-refresh-secret-2026'
+            )
+        else:
+            raw = (
+                cfg.get('JWT_SECRET_KEY')
+                or os.getenv('JWT_SECRET_KEY')
+                or cfg.get('SECRET_KEY')
+                or os.getenv('SECRET_KEY')
+                or 'doepet-jwt-access-secret-2026'
+            )
+        return str(raw)
+
+    def get_signing_key(self, kind: str = 'access', config: Optional[Mapping[str, Any]] = None) -> Tuple[str, str]:
+        secret = self._resolve_primary(kind, config)
+        kid = f"{kind}-{hashlib.sha256(secret.encode('utf-8')).hexdigest()[:12]}"
+        return secret, kid
+
+    def get_verification_keys(self, kind: str = 'access', config: Optional[Mapping[str, Any]] = None) -> list[str]:
+        cfg = config or {}
+        primary = self._resolve_primary(kind, cfg)
+        keys = [primary]
+
+        prev_access = str(cfg.get('JWT_PREVIOUS_SECRET_KEY') or os.getenv('JWT_PREVIOUS_SECRET_KEY') or '').strip()
+        if prev_access and prev_access not in keys:
+            keys.append(prev_access)
+
+        if kind == 'refresh':
+            prev_refresh = str(
+                cfg.get('JWT_REFRESH_PREVIOUS_SECRET_KEY')
+                or os.getenv('JWT_REFRESH_PREVIOUS_SECRET_KEY')
+                or ''
+            ).strip()
+            if prev_refresh and prev_refresh not in keys:
+                keys.append(prev_refresh)
+
+        return keys
+
+
+secret_vault = SecretVault()

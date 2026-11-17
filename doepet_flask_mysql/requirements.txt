@@ -2,6 +2,7 @@ Flask==3.0.3
 Flask-SQLAlchemy==3.1.1
 Flask-Login==0.6.3
 Flask-Cors==4.0.1
+psycopg2-binary==2.9.9
 psycopg[binary]==3.1.19
 PyMySQL==1.1.1
 cryptography==42.0.8
@@ -18,3 +19,5 @@ azure-servicebus==7.12.2
 opentelemetry-api==1.25.0
 opentelemetry-sdk==1.25.0
 opentelemetry-exporter-otlp==1.25.0
+opentelemetry-instrumentation-flask==0.46b0
+opentelemetry-instrumentation-sqlalchemy==0.46b0

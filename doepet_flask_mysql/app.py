@@ -2,14 +2,15 @@ import os
 from flask import Flask, render_template, request, g, session, redirect, url_for
 from flask_cors import CORS
 from flask_login import LoginManager
+from sqlalchemy import inspect
 from doepet_flask_mysql.config import Config
 from doepet_flask_mysql.models import db, User
-from doepet_flask_mysql.observability.telemetry import register_telemetry_hooks
+from doepet_flask_mysql.observability.tracing import configure_observability
 
 login_manager = LoginManager()
 
 
-def create_app(config_class=Config):
+def create_app(config_class=Config, seed_on_startup: bool = True):
     app = Flask(__name__, template_folder='templates', static_folder='static')
     app.config.from_object(config_class)
 
@@ -27,8 +28,8 @@ def create_app(config_class=Config):
     login_manager.login_message = 'Por favor, autentique-se para acessar esta pagina.'
     login_manager.login_message_category = 'warning'
 
-    # DT-05: Middleware OpenTelemetry + X-Correlation-ID + traceparent
-    register_telemetry_hooks(app)
+    # DT-05: Middleware OpenTelemetry + X-Correlation-ID + traceparent + Ring Buffer
+    configure_observability(app, db)
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -122,6 +123,15 @@ def create_app(config_class=Config):
         if request.path.startswith('/api/'):
             return {'error': 'Erro interno no servidor.'}, 500
         return render_template('errors/500.html'), 500
+
+    if seed_on_startup and not app.config.get('TESTING', False):
+        try:
+            with app.app_context():
+                if inspect(db.engine).has_table('users'):
+                    from doepet_flask_mysql.seed import seed_database
+                    seed_database(force=False)
+        except Exception:
+            pass
 
     return app
 
