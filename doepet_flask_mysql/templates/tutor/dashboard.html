@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+
+{% block title %}Painel do Tutor - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header Tutor -->
+    <div id="topo-tutor" class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/60 shadow-sm">
+        <div>
+            <h1 class="text-2xl font-bold">Olá, {{ tutor.nome }}! 🐾</h1>
+            <p class="text-xs text-slate-500 mt-1">Localização: {{ tutor.bairro }}, {{ tutor.cidade }}/{{ tutor.estado }} • CPF: {{ tutor.cpf }}</p>
+        </div>
+        <div>
+            <a href="{{ url_for('tutor.pets') }}" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2">
+                <span>➕</span> Cadastrar Novo Pet
+            </a>
+        </div>
+    </div>
+
+    <!-- Tela Inicial: 5 Cards de Navegação -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- 1. Meus Animais -->
+        <a href="#meus-animais" class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 hover:border-emerald-500/50 shadow-xs hover:shadow-md transition block space-y-3 group">
+            <div class="flex items-center justify-between">
+                <span class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xl">🐕</span>
+                <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    {{ pets|length }} cadastrado(s)
+                </span>
+            </div>
+            <div>
+                <h3 class="text-base font-bold group-hover:text-emerald-600 transition-colors">Meus Animais</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Gerencie os pets, controle peso, idade e aptidão de doação segura.</p>
+            </div>
+            <div class="pt-2 text-xs font-semibold text-emerald-600 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <span>Acessar Meus Animais</span>
+                <span>→</span>
+            </div>
+        </a>
+
+        <!-- 2. Alertas Compatíveis -->
+        <a href="#alertas-compativeis" class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 hover:border-emerald-500/50 shadow-xs hover:shadow-md transition block space-y-3 group">
+            <div class="flex items-center justify-between">
+                <span class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xl">🚨</span>
+                <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    {{ alertas_compativeis|length }} ativo(s)
+                </span>
+            </div>
+            <div>
+                <h3 class="text-base font-bold group-hover:text-emerald-600 transition-colors">Alertas Compatíveis</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Necessidades emergenciais abertas por clínicas conveniadas.</p>
+            </div>
+            <div class="pt-2 text-xs font-semibold text-emerald-600 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <span>Ver Alertas Compatíveis</span>
+                <span>→</span>
+            </div>
+        </a>
+
+        <!-- 3. Doações Agendadas -->
+        <a href="#doacoes-agendadas" class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 hover:border-emerald-500/50 shadow-xs hover:shadow-md transition block space-y-3 group">
+            <div class="flex items-center justify-between">
+                <span class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xl">📅</span>
+                <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    Sem filas
+                </span>
+            </div>
+            <div>
+                <h3 class="text-base font-bold group-hover:text-emerald-600 transition-colors">Doações Agendadas</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Consulte datas e horários confirmados para triagem e coleta presencial.</p>
+            </div>
+            <div class="pt-2 text-xs font-semibold text-emerald-600 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <span>Ver Doações Agendadas</span>
+                <span>→</span>
+            </div>
+        </a>
+
+        <!-- 4. Vouchers de Benefício -->
+        <a href="#vouchers-beneficio" class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 hover:border-emerald-500/50 shadow-xs hover:shadow-md transition block space-y-3 group">
+            <div class="flex items-center justify-between">
+                <span class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xl">🎟️</span>
+                <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    {{ meus_vouchers|length }} disponível(is)
+                </span>
+            </div>
+            <div>
+                <h3 class="text-base font-bold group-hover:text-emerald-600 transition-colors">Vouchers de Benefício</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Exames gratuitos e consultas conquistadas no programa de fidelidade.</p>
+            </div>
+            <div class="pt-2 text-xs font-semibold text-emerald-600 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <span>Acessar Vouchers de Benefício</span>
+                <span>→</span>
+            </div>
+        </a>
+
+        <!-- 5. Segurança e LGPD -->
+        <a href="#seguranca-lgpd" class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 hover:border-emerald-500/50 shadow-xs hover:shadow-md transition block space-y-3 group">
+            <div class="flex items-center justify-between">
+                <span class="p-3 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xl">🛡️</span>
+                <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                    Art. 18 LGPD
+                </span>
+            </div>
+            <div>
+                <h3 class="text-base font-bold group-hover:text-emerald-600 transition-colors">Segurança e LGPD</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Exportação completa de dados em JSON e termo de consentimento.</p>
+            </div>
+            <div class="pt-2 text-xs font-semibold text-emerald-600 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50">
+                <span>Acessar Segurança e LGPD</span>
+                <span>→</span>
+            </div>
+        </a>
+    </div>
+
+    <!-- Indicadores do Tutor: Capacidade de Doação dos Seus Pets -->
+    <div id="meus-animais" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+            <span class="text-xs text-slate-500">Volume de Doação dos Seus Pets</span>
+            <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 block">{{ volume_total_doacao_ml }} mL</span>
+            <span class="text-[11px] text-slate-400">Calculado a partir dos seus pets aptos</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+            <span class="text-xs text-slate-500">🐕 Potencial Canino</span>
+            <span class="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">{{ volume_caes_ml }} mL</span>
+            <span class="text-[11px] text-slate-400">{{ qtd_caes_aptos }} cão(es) apto(s) (450 mL/coleta)</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+            <span class="text-xs text-slate-500">🐈 Potencial Felino</span>
+            <span class="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">{{ volume_gatos_ml }} mL</span>
+            <span class="text-[11px] text-slate-400">{{ qtd_gatos_aptos }} gato(s) apto(s) (50 mL/coleta)</span>
+        </div>
+    </div>
+
+    <!-- Meus Pets Cadastrados -->
+    <div class="space-y-3">
+        <h2 class="text-lg font-bold">Meus Animais Cadastrados ({{ pets|length }})</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for pet in pets %}
+                <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl">{{ '🐕' if pet.especie == 'CANINA' else '🐈' }}</span>
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold
+                            {% if pet.status_elegibilidade == 'APTO' %} bg-emerald-500/10 text-emerald-600 border border-emerald-500/20
+                            {% elif pet.status_elegibilidade == 'EM_ANALISE' %} bg-blue-500/10 text-blue-600 border border-blue-500/20
+                            {% else %} bg-red-500/10 text-red-600 border border-red-500/20 {% endif %}">
+                            {{ pet.status_elegibilidade }}
+                        </span>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base">{{ pet.nome }}</h3>
+                        <p class="text-xs text-slate-400">{{ pet.raca }} • {{ pet.sexo }} • {{ pet.peso_kg }} kg</p>
+                    </div>
+                    <div class="text-xs text-slate-500 border-t border-slate-100 dark:border-slate-700/50 pt-2 flex items-center justify-between">
+                        <div>
+                            <span>Tipo: <strong>{{ pet.tipo_sanguineo }}</strong></span>
+                        </div>
+                        <form method="POST" action="{{ url_for('tutor.excluir_pet', pet_id=pet.id) }}" onsubmit="return confirm('Deseja realmente excluir o pet {{ pet.nome }} do cadastro?');" class="inline">
+                            <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-semibold flex items-center gap-1 transition">
+                                🗑️ Excluir pet
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-span-3 p-6 text-center border border-dashed rounded-2xl text-slate-400 text-sm">
+                    Você ainda não cadastrou nenhum pet. <a href="{{ url_for('tutor.pets') }}" class="text-emerald-500 font-bold hover:underline">Cadastre agora</a> para salvar vidas!
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Alertas Compatíveis e Manifestação de Interesse (US06 & US07) -->
+    <div id="alertas-compativeis" class="p-6 rounded-3xl border border-red-500/30 bg-red-500/5 space-y-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-lg font-bold text-red-600 dark:text-red-400">🚨 Alertas Urgentes Compatíveis com seus Pets</h2>
+                <p class="text-xs text-slate-500">Clínicas próximas que necessitam do tipo de sangue do seu animal agora</p>
+            </div>
+            <a href="#topo-tutor" class="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition inline-flex items-center gap-1.5 shadow-xs">
+                ← Voltar para a Tela Inicial
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {% for need in alertas_compativeis %}
+                <div class="p-5 rounded-2xl border border-red-500/20 bg-white dark:bg-slate-800 shadow-sm space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded bg-red-600 text-white">{{ need.urgencia }}</span>
+                        <span class="text-xs font-bold text-slate-400">{{ need.especie }} • {{ need.tipo_sanguineo }}</span>
+                    </div>
+                    <h3 class="font-bold text-sm">{{ need.institution.nome_fantasia }}</h3>
+                    <p class="text-xs text-slate-500">{{ need.descricao }}</p>
+
+                    {% if need.id in interesses_need_ids %}
+                        <div class="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 text-xs font-bold text-center border border-emerald-500/20">
+                            ✅ Você já manifestou interesse para este alerta. A clínica entrará em contato!
+                        </div>
+                    {% else %}
+                        <form method="POST" action="{{ url_for('tutor.manifestar_interesse', need_id=need.id) }}" class="flex items-center gap-2">
+                            <select name="pet_id" required class="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-xs">
+                                {% for pet in pets if pet.especie == need.especie and pet.status_elegibilidade == 'APTO' %}
+                                    <option value="{{ pet.id }}">{{ pet.nome }} ({{ pet.peso_kg }}kg)</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow transition whitespace-nowrap">
+                                Tenho Interesse em Doar
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="col-span-2 p-6 text-center text-slate-400 text-xs">
+                    Nenhum alerta crítico compatível no momento. Parabéns por manter seu pet disponível!
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Meus Vouchers de Benefício (US10) -->
+    <div id="vouchers-beneficio" class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold flex items-center gap-2">
+                <span>🎟️</span> Minha Carteira de Vouchers e Benefícios ({{ meus_vouchers|length }})
+            </h2>
+            <a href="#topo-tutor" class="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition inline-flex items-center gap-1.5 shadow-xs">
+                ← Voltar para a Tela Inicial
+            </a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {% for v in meus_vouchers %}
+                <div class="p-5 rounded-2xl border border-purple-500/30 bg-purple-500/5 space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="font-mono font-black text-sm text-purple-600 dark:text-purple-400">{{ v.codigo }}</span>
+                        <span class="text-[10px] px-2 py-0.5 rounded font-bold
+                            {{ 'bg-emerald-500 text-white' if v.status == 'ATIVO' else 'bg-slate-300 text-slate-700' }}">
+                            {{ v.status }}
+                        </span>
+                    </div>
+                    <p class="text-xs font-semibold text-slate-700 dark:text-slate-300">{{ v.beneficio_descricao }}</p>
+                    <div class="text-[11px] text-slate-400 pt-2 border-t border-purple-500/10 flex justify-between">
+                        <span>Válido até: {{ v.data_validade.strftime('%d/%m/%Y') }}</span>
+                    </div>
+                </div>
+            {% else %}
+                <p class="col-span-3 text-xs text-slate-400">Você ainda não possui vouchers. Realize uma doação para receber benefícios exclusivos da rede!</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Seção Exclusiva: Segurança e LGPD (Lei 13.709/2018) -->
+    <div id="seguranca-lgpd" class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+                <h2 class="text-lg font-bold flex items-center gap-2">
+                    <span>🛡️</span> Segurança e LGPD (Portabilidade de Dados)
+                </h2>
+                <p class="text-xs text-slate-500 mt-1">
+                    Conforme o Artigo 18 da Lei Geral de Proteção de Dados (LGPD), você pode exportar integralmente todos os seus dados cadastrais e dos seus animais.
+                </p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="#topo-tutor" class="px-3.5 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-xs font-semibold text-slate-700 dark:text-slate-300 transition inline-flex items-center gap-1.5 shadow-xs whitespace-nowrap">
+                    ← Voltar para o Início
+                </a>
+                <a href="{{ url_for('tutor.exportar_dados_lgpd') }}" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2 whitespace-nowrap">
+                    <span>📥</span> Exportar Meus Dados (LGPD)
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra Toggler no Final da Página: Indicadores de Rede -->
+    <div class="pt-4 border-t border-slate-200 dark:border-slate-800" x-data="{ open: true }">
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 shadow-xs overflow-hidden">
+            <details open class="group">
+                <summary class="px-5 py-4 flex items-center justify-between cursor-pointer list-none hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                    <div class="flex items-center gap-3">
+                        <span class="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">📊</span>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h3 class="text-sm font-bold">Indicadores de Prontidão da Rede DoePet</h3>
+                                <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">3 métricas</span>
+                            </div>
+                            <p class="text-xs text-slate-500 mt-0.5">Tempo de resposta, avisos recebidos e agendamentos organizados</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold text-emerald-600 group-open:rotate-180 transition-transform">▼</span>
+                </summary>
+                <div class="p-4 sm:p-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/30">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
+                            <span class="text-xs text-slate-500 block">Tempo de Resposta</span>
+                            <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 block">-20%</span>
+                            <span class="text-[11px] text-slate-400">Mobilização ágil quando houver emergência</span>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
+                            <span class="text-xs text-slate-500 block">Avisos Recebidos</span>
+                            <span class="text-2xl font-black text-slate-900 dark:text-slate-100 mt-1 block">98.4%</span>
+                            <span class="text-[11px] text-slate-400">Alertas diretos para os seus pets cadastrados</span>
+                        </div>
+                        <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800">
+                            <span class="text-xs text-slate-500 block">Doações Agendadas</span>
+                            <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 block">100%</span>
+                            <span class="text-[11px] text-slate-400">Sem filas ou esperas para os animais</span>
+                        </div>
+                    </div>
+                </div>
+            </details>
+        </div>
+    </div>
+</div>
+{% endblock %}

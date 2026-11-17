@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Alertas de Necessidade de Sangue - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold">🚨 Alertas e Mobilização de Doadores</h1>
+            <p class="text-xs text-slate-500">Mobilização rápida com disparos de notificações segmentadas para tutores de animais compatíveis</p>
+        </div>
+        <button onclick="document.getElementById('modal-alerta').classList.toggle('hidden')"
+                class="px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2">
+            <span>📢</span> Emitir Alerta de Urgência
+        </button>
+    </div>
+
+    <!-- Modal Novo Alerta -->
+    <div id="modal-alerta" class="hidden p-6 rounded-3xl border border-red-500/30 bg-red-500/5 shadow-xl space-y-4">
+        <h2 class="text-lg font-bold text-red-600 dark:text-red-400">Publicar Alerta de Hemoterapia Animal</h2>
+        <form method="POST" action="{{ url_for('institution.alertas') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Espécie Alvo</label>
+                <select name="especie" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    <option value="CANINA">Canina (Cão)</option>
+                    <option value="FELINA">Felina (Gato)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Tipo Sanguíneo Requerido</label>
+                <select name="tipo_sanguineo" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    <option value="DEA 1.1 Negativo">DEA 1.1 Negativo (Doador Universal Canino)</option>
+                    <option value="DEA 1.1 Positivo">DEA 1.1 Positivo</option>
+                    <option value="Tipo A">Tipo A (Felino)</option>
+                    <option value="Tipo B">Tipo B (Felino)</option>
+                    <option value="Qualquer Compatível">Qualquer Compatível</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Volume Desejado (mL)</label>
+                <input type="number" name="volume_solicitado_ml" required min="100" max="2500" value="450"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Gravidade / Urgência</label>
+                <select name="urgencia" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    <option value="CRITICA">Crítica (Risco Iminente / UTI)</option>
+                    <option value="ALTA" selected>Alta (Cirurgia Programada nas próximas 24h)</option>
+                    <option value="MODERADA">Moderada (Reposição de Banco)</option>
+                </select>
+            </div>
+            <div class="sm:col-span-2 lg:col-span-3">
+                <label class="block text-xs font-semibold uppercase mb-1">Descrição Clínica da Necessidade</label>
+                <input type="text" name="descricao" required placeholder="Paciente politraumatizado precisando com urgência de sangue total canino"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow transition">
+                    Disparar Alerta & Push
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Alertas Ativos e Concluídos -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for alerta in alertas %}
+            <div class="p-5 rounded-2xl border {{ 'border-red-500/40 bg-white dark:bg-slate-800/80 shadow-md' if alerta.status == 'ACTIVE' else 'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 opacity-70' }} space-y-3">
+                <div class="flex justify-between items-start">
+                    <span class="text-xs font-black px-2.5 py-0.5 rounded-full
+                        {{ 'bg-red-600 text-white animate-pulse' if alerta.urgencia == 'CRITICA' else 'bg-amber-500 text-white' }}">
+                        {{ alerta.urgencia }}
+                    </span>
+                    <span class="text-xs font-bold {{ 'text-emerald-500' if alerta.status == 'ACTIVE' else 'text-slate-400' }}">
+                        ● {{ alerta.status }}
+                    </span>
+                </div>
+
+                <div>
+                    <h3 class="text-base font-bold">{{ alerta.especie }} • {{ alerta.tipo_sanguineo }}</h3>
+                    <p class="text-xs text-slate-500 mt-1">{{ alerta.descricao }}</p>
+                </div>
+
+                <div class="p-3 rounded-xl bg-slate-100 dark:bg-slate-900/60 text-xs space-y-1">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Volume Solicitado:</span>
+                        <span class="font-bold text-red-500">{{ alerta.volume_solicitado_ml }} mL</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Notificações Enviadas:</span>
+                        <span class="font-bold text-blue-500">{{ alerta.notifications|length }} tutores</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Interessados Confirmados:</span>
+                        <span class="font-bold text-emerald-500">{{ alerta.interests|length }} doadores</span>
+                    </div>
+                </div>
+
+                <div class="text-[11px] text-slate-400">
+                    Emitido em: {{ alerta.created_at.strftime('%d/%m/%Y às %H:%M') }}
+                </div>
+
+                {% if alerta.interests %}
+                    <div class="pt-2 border-t border-slate-200 dark:border-slate-700/60 space-y-2">
+                        <span class="text-[11px] font-bold text-slate-700 dark:text-slate-300 block">Tutores Interessados:</span>
+                        {% for int in alerta.interests %}
+                            <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-[11px] flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                <div>
+                                    <span class="font-bold text-slate-900 dark:text-slate-100">{{ int.pet.nome }}</span> ({{ int.pet.peso_kg }} kg)
+                                    <span class="text-slate-400 block sm:inline"> • Tutor: {{ int.tutor.nome }} ({{ int.tutor.telefone }})</span>
+                                </div>
+                                {% if int.status == 'SELECIONADO_AGENDAMENTO' %}
+                                    <a href="{{ url_for('institution.agendamentos') }}" class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold text-[10px] flex items-center gap-1 border border-emerald-500/20">
+                                        ✓ Agendado na Clínica
+                                    </a>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('institution.agendar_interesse', interest_id=int.id) }}">
+                                        <button type="submit" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] shadow transition cursor-pointer">
+                                            Agendar Horário na Clínica
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="col-span-3 p-8 text-center text-slate-400">Nenhum alerta cadastrado até o momento.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

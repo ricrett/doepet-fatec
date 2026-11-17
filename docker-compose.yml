@@ -1,0 +1,65 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: doepet-postgres
+    environment:
+      POSTGRES_DB: ${SQL_DB_NAME:-doepet_db}
+      POSTGRES_USER: ${SQL_USER:-doepet}
+      POSTGRES_PASSWORD: ${SQL_PASSWORD:-doepet_dev_2026}
+    ports:
+      - "5432:5432"
+    volumes:
+      - doepet_pgdata:/var/lib/postgresql/data
+      - ./doepet_flask_mysql/schema_postgres.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${SQL_USER:-doepet} -d ${SQL_DB_NAME:-doepet_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: doepet-web
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PORT: "3000"
+      NODE_ENV: production
+      SQL_HOST: postgres
+      SQL_PORT: "5432"
+      SQL_DB_NAME: ${SQL_DB_NAME:-doepet_db}
+      SQL_USER: ${SQL_USER:-doepet}
+      SQL_PASSWORD: ${SQL_PASSWORD:-doepet_dev_2026}
+      SQL_SSL: disable
+      JWT_ACCESS_TTL_SECONDS: ${JWT_ACCESS_TTL_SECONDS:-900}
+      JWT_REFRESH_TTL_SECONDS: ${JWT_REFRESH_TTL_SECONDS:-604800}
+    ports:
+      - "3000:3000"
+    volumes:
+      - doepet_data:/app/.data
+
+  flask_api:
+    build:
+      context: ./doepet_flask_mysql
+      dockerfile: Dockerfile
+    container_name: doepet-flask-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SQL_HOST: postgres
+      SQL_PORT: "5432"
+      SQL_DB_NAME: ${SQL_DB_NAME:-doepet_db}
+      SQL_USER: ${SQL_USER:-doepet}
+      SQL_PASSWORD: ${SQL_PASSWORD:-doepet_dev_2026}
+      SQL_SSL: disable
+      SECRET_KEY: ${SECRET_KEY:-doepet-docker-secret-2026}
+    ports:
+      - "5000:5000"
+
+volumes:
+  doepet_pgdata:
+  doepet_data:

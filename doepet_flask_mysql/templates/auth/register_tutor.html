@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Tutor - DoePet{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto my-6 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 shadow-xl space-y-6">
+    <div class="text-center space-y-2">
+        <span class="text-3xl">🐾</span>
+        <h1 class="text-2xl font-bold">Cadastro de Tutor Doador</h1>
+        <p class="text-xs text-slate-500">Cadastre-se para receber alertas segmentados e agendar doações que salvam vidas</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('auth.register_tutor') }}" class="space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Nome Completo</label>
+                <input type="text" name="nome" required placeholder="Carlos Silva"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">CPF</label>
+                <input type="text" name="cpf" required placeholder="000.000.000-00"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">E-mail</label>
+                <input type="email" name="email" required placeholder="carlos@exemplo.com"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Senha Segura</label>
+                <input type="password" name="password" required placeholder="••••••••"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Telefone / WhatsApp</label>
+                <input type="text" name="telefone" required placeholder="(11) 98888-7777"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Cidade</label>
+                <input type="text" name="cidade" required placeholder="São Paulo"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">UF (Estado)</label>
+                <input type="text" name="estado" maxlength="2" required placeholder="SP"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none uppercase">
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Bairro</label>
+                <input type="text" name="bairro" required placeholder="Pinheiros"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">CEP</label>
+                <input type="text" name="cep" required placeholder="01400-000"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+            </div>
+        </div>
+
+        <!-- Termo de Consentimento LGPD (Requisito 1.6 / 3.1) -->
+        <div class="p-4 rounded-2xl bg-emerald-500/5 border border-emerald-500/20 text-xs space-y-2">
+            <div class="flex items-start gap-3">
+                <input type="checkbox" id="lgpd_aceite" name="lgpd_aceite" required class="mt-1 h-4 w-4 rounded text-emerald-600 focus:ring-emerald-500">
+                <label for="lgpd_aceite" class="text-slate-600 dark:text-slate-300">
+                    Declaro que li e concordo com a <strong>Política de Privacidade e Proteção de Dados (LGPD - Lei nº 13.709/2018)</strong>, autorizando o tratamento do número de contato e localização exclusivamente para envio de alertas de emergência transfusional animal e agendamentos hospitalares.
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition">
+            Finalizar Cadastro de Tutor
+        </button>
+    </form>
+</div>
+{% endblock %}

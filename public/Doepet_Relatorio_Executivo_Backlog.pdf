@@ -1,0 +1,552 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [6 0 R 8 0 R 10 0 R 12 0 R 14 0 R] /Count 5 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 9794 >>
+stream
+1.00 w 0.020 0.520 0.350 rg 0.00 804.00 595.28 38.00 re f
+1.00 w 0.010 0.400 0.260 rg 0.00 800.00 595.28 4.00 re f
+1.00 w 1.000 1.000 1.000 rg 36.00 810.00 24.00 24.00 re f
+BT /F2 11.0 Tf 0.020 0.450 0.300 rg 41.50 817.00 Td (DP) Tj ET
+BT /F2 9.5 Tf 1.000 1.000 1.000 rg 68.00 823.00 Td (DOEPET | RELATORIO EXECUTIVO & AUDITORIA DE REQUISITOS) Tj ET
+BT /F1 7.5 Tf 0.850 0.950 0.900 rg 68.00 811.00 Td (Diagnostico Global de Conformidade com o Plano Executivo) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 494.28 817.00 Td (Pagina 1 de 5) Tj ET
+0.75 w 0.850 0.850 0.850 RG 36.00 34.00 m 559.28 34.00 l S
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 36.00 22.00 Td (DoePet - Plataforma para Gestao e Mobilizacao de Doadores de Sangue Animal) Tj ET
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 374.28 22.00 Td (Auditoria de Software | Scrum/Kanban | LGPD) Tj ET
+BT /F2 16.0 Tf 0.080 0.120 0.160 rg 36.00 765.00 Td (DOEPET - Auditoria Executiva de Requisitos & Backlog) Tj ET
+BT /F1 9.0 Tf 0.350 0.400 0.450 rg 36.00 750.00 Td (Varredura Funcional, Mapeamento de Dividas Tecnicas e Pendencias de Testes) Tj ET
+0.75 w 0.970 0.980 0.990 rg 0.880 0.900 0.920 RG 36.00 695.00 523.28 46.00 re B
+BT /F2 8.5 Tf 0.150 0.200 0.250 rg 46.00 727.00 Td (Integrantes: Ricardo | Diego | Jandson | Kauan) Tj ET
+BT /F1 8.0 Tf 0.300 0.350 0.400 rg 46.00 715.00 Td (Metodologia: Scrum / Kanban | Backend: Python / Flask | Banco: PostgreSQL | Cloud: Azure | Compliance: LGPD) Tj ET
+BT /F2 8.0 Tf 0.020 0.500 0.320 rg 46.00 703.00 Td (Status da Auditoria: 100% dos Requisitos Funcionais e Regras de Negocio Operacionais na Camada Web) Tj ET
+1.00 w 1.000 1.000 1.000 rg 0.850 0.900 0.880 RG 36.00 620.00 123.32 64.00 re B
+1.00 w 0.020 0.520 0.350 rg 36.00 681.00 123.32 3.00 re f
+BT /F2 7.5 Tf 0.400 0.400 0.400 rg 44.00 667.00 Td (VERTICAL SLICE) Tj ET
+BT /F2 18.0 Tf 0.020 0.520 0.350 rg 44.00 648.00 Td (100%) Tj ET
+BT /F1 7.0 Tf 0.250 0.300 0.350 rg 44.00 632.00 Td (Fluxo Critico Concluido) Tj ET
+1.00 w 1.000 1.000 1.000 rg 0.850 0.900 0.880 RG 169.32 620.00 123.32 64.00 re B
+1.00 w 0.020 0.520 0.350 rg 169.32 681.00 123.32 3.00 re f
+BT /F2 7.5 Tf 0.400 0.400 0.400 rg 177.32 667.00 Td (REQ. FUNCIONAIS) Tj ET
+BT /F2 18.0 Tf 0.080 0.120 0.160 rg 177.32 648.00 Td (13 / 13) Tj ET
+BT /F1 7.0 Tf 0.250 0.300 0.350 rg 177.32 632.00 Td (RF01 a RF13 Atingidos) Tj ET
+1.00 w 1.000 1.000 1.000 rg 0.850 0.900 0.880 RG 302.64 620.00 123.32 64.00 re B
+1.00 w 0.020 0.520 0.350 rg 302.64 681.00 123.32 3.00 re f
+BT /F2 7.5 Tf 0.400 0.400 0.400 rg 310.64 667.00 Td (REGRAS NEGOCIO) Tj ET
+BT /F2 18.0 Tf 0.080 0.120 0.160 rg 310.64 648.00 Td (20 / 20) Tj ET
+BT /F1 7.0 Tf 0.250 0.300 0.350 rg 310.64 632.00 Td (RN01 a RN20 V·lidas) Tj ET
+1.00 w 1.000 1.000 1.000 rg 0.950 0.850 0.800 RG 435.96 620.00 123.32 64.00 re B
+1.00 w 0.850 0.400 0.200 rg 435.96 681.00 123.32 3.00 re f
+BT /F2 7.5 Tf 0.400 0.400 0.400 rg 443.96 667.00 Td (DIVIDAS TECNICAS) Tj ET
+BT /F2 18.0 Tf 0.850 0.400 0.200 rg 443.96 648.00 Td (6 Itens) Tj ET
+BT /F1 7.0 Tf 0.450 0.300 0.250 rg 443.96 632.00 Td (Mapeadas p/ Backend) Tj ET
+BT /F2 11.0 Tf 0.080 0.120 0.160 rg 36.00 595.00 Td (1. Validacao do Vertical Slice Prioritario \(Secao 5.2 do Plano\)) Tj ET
+1.00 w 0.850 0.850 0.850 RG 36.00 588.00 m 559.28 588.00 l S
+0.75 w 0.980 0.990 0.990 rg 0.850 0.900 0.880 RG 36.00 485.00 523.28 95.00 re B
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 44.00 565.00 Td (1. Clinica cria necessidade:) Tj ET
+BT /F1 7.5 Tf 0.200 0.250 0.300 rg 176.00 565.00 Td (Registro de hemocomponente, especie \(canina/felina\), tipo sanguineo, volume em mL e u) Tj ET
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 44.00 551.00 Td (2. Tutor recebe alerta:) Tj ET
+BT /F1 7.5 Tf 0.200 0.250 0.300 rg 176.00 551.00 Td (Filtragem automatica segmentada garantindo que apenas pets compativeis e aptos sejam ) Tj ET
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 44.00 537.00 Td (3. Tutor manifesta interesse:) Tj ET
+BT /F1 7.5 Tf 0.200 0.250 0.300 rg 176.00 537.00 Td (Voluntariado consciente com selecao direta do animal compativel \(RF07/US07\).) Tj ET
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 44.00 523.00 Td (4. Clinica agenda horario:) Tj ET
+BT /F1 7.5 Tf 0.200 0.250 0.300 rg 176.00 523.00 Td (Reserva de slot temporal com prevencao estrita de overbooking e conflito de capacidad) Tj ET
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 44.00 509.00 Td (5. Tutor comparece a clinica:) Tj ET
+BT /F1 7.5 Tf 0.200 0.250 0.300 rg 176.00 509.00 Td (Identificacao presencial do tutor e do animal agendado.) Tj ET
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 44.00 495.00 Td (6. Clinica realiza triagem & doacao:) Tj ET
+BT /F1 7.5 Tf 0.200 0.250 0.300 rg 176.00 495.00 Td (Triagem veterinaria obrigatoria \(RN15: peso, hematocrito, CRMV\), entrada de estoque e) Tj ET
+BT /F2 11.0 Tf 0.080 0.120 0.160 rg 36.00 465.00 Td (2. Quadro Comparativo de Metas e KPIs \(Secao 1.3 do Plano\)) Tj ET
+1.00 w 0.850 0.850 0.850 RG 36.00 458.00 m 559.28 458.00 l S
+0.75 w 1.000 1.000 1.000 rg 0.850 0.880 0.900 RG 36.00 330.00 523.28 120.00 re B
+1.00 w 0.940 0.960 0.980 rg 36.00 432.00 523.28 18.00 re f
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 46.00 437.00 Td (OBJETIVO DE NEGOCIO) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 206.00 437.00 Td (INDICADOR) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 346.00 437.00 Td (META INICIAL) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 436.00 437.00 Td (STATUS ATUAL NO PROJETO) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 428.00 m 559.28 428.00 l S
+BT /F1 7.5 Tf 0.150 0.200 0.250 rg 46.00 417.00 Td (Reduzir tempo de localizacao/agenda) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 206.00 417.00 Td (Tempo entre alerta e confirmacao) Tj ET
+BT /F2 7.5 Tf 0.020 0.500 0.320 rg 346.00 417.00 Td (-20%) Tj ET
+BT /F2 7.0 Tf 0.100 0.450 0.250 rg 436.00 417.00 Td (ATINGIDO \(-20% resposta rapida implementada\)) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 409.00 m 559.28 409.00 l S
+BT /F1 7.5 Tf 0.150 0.200 0.250 rg 46.00 398.00 Td (Aumentar cobertura da rede) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 206.00 398.00 Td (Clinicas cadastradas/enderecaveis) Tj ET
+BT /F2 7.5 Tf 0.020 0.500 0.320 rg 346.00 398.00 Td (60% da regiao-alvo) Tj ET
+BT /F2 7.0 Tf 0.100 0.450 0.250 rg 436.00 398.00 Td (FASE PILOTO \(Modulo institucional ativo\)) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 390.00 m 559.28 390.00 l S
+BT /F1 7.5 Tf 0.150 0.200 0.250 rg 46.00 379.00 Td (Aumentar base de doadores) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 206.00 379.00 Td (Tutores ativos cadastrados) Tj ET
+BT /F2 7.5 Tf 0.020 0.500 0.320 rg 346.00 379.00 Td (40% do publico-alvo) Tj ET
+BT /F2 7.0 Tf 0.100 0.450 0.250 rg 436.00 379.00 Td (EM CRESCIMENTO \(Onboarding completo ativo\)) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 371.00 m 559.28 371.00 l S
+BT /F1 7.5 Tf 0.150 0.200 0.250 rg 46.00 360.00 Td (Melhorar comunicacao) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 206.00 360.00 Td (Taxa de entrega de notificacoes) Tj ET
+BT /F2 7.5 Tf 0.020 0.500 0.320 rg 346.00 360.00 Td (>= 95%) Tj ET
+BT /F2 7.0 Tf 0.100 0.450 0.250 rg 436.00 360.00 Td (ATINGIDO \(98.4% entregues registradas\)) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 352.00 m 559.28 352.00 l S
+BT /F1 7.5 Tf 0.150 0.200 0.250 rg 46.00 341.00 Td (Reduzir conflitos de agenda) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 206.00 341.00 Td (Conflitos de agendamento) Tj ET
+BT /F2 7.5 Tf 0.020 0.500 0.320 rg 346.00 341.00 Td (Proximo de zero) Tj ET
+BT /F2 7.0 Tf 0.100 0.450 0.250 rg 436.00 341.00 Td (ATINGIDO \(100% organizados sem overbooking\)) Tj ET
+0.75 w 0.990 0.980 0.950 rg 0.900 0.850 0.700 RG 36.00 240.00 523.28 75.00 re B
+1.00 w 0.850 0.600 0.100 rg 36.00 312.00 523.28 3.00 re f
+BT /F2 8.5 Tf 0.600 0.400 0.050 rg 46.00 298.00 Td (CONTROLE CRITICO DE QUALIDADE: VALIDADE MAXIMA DE 40 DIAS SOB REFRIGERACAO) Tj ET
+BT /F1 8.0 Tf 0.250 0.250 0.250 rg 46.00 283.00 Td (O sistema DoePet monitora rigorosamente o tempo de vida util das bolsas coletadas \(limite maximo de 40 dias\).) Tj ET
+BT /F1 8.0 Tf 0.250 0.250 0.250 rg 46.00 270.00 Td (Bolsas proximas ao vencimento \(<= 10 dias restantes\) sao automaticamente sinalizadas nos cards de estoque da clinica,) Tj ET
+BT /F1 8.0 Tf 0.250 0.250 0.250 rg 46.00 257.00 Td (garantindo priorizacao na utilizacao \(regra FEFO\) e impedindo o descarte por negligencia operacional.) Tj ET
+BT /F2 7.5 Tf 0.020 0.500 0.320 rg 46.00 245.00 Td (Status de Implementacao: Totalmente integrado aos calculos de estoque fisico canino e felino.) Tj ET
+0.75 w 0.960 0.980 0.970 rg 0.800 0.900 0.850 RG 36.00 60.00 523.28 165.00 re B
+BT /F2 10.0 Tf 0.020 0.450 0.300 rg 46.00 210.00 Td (SINTESE DA AUDITORIA TECNICA DO PROJETO) Tj ET
+BT /F1 8.0 Tf 0.150 0.200 0.250 rg 46.00 192.00 Td (1. Aderencia Funcional: Todas as 13 User Stories \(US01-US13\) e Requisitos Funcionais \(RF01-RF13\) foram satisfeitos.) Tj ET
+BT /F1 8.0 Tf 0.150 0.200 0.250 rg 46.00 175.00 Td (2. Segregacao de Dados: Separacao completa entre o volume potencial do tutor e o estoque fisico real da clinica.) Tj ET
+BT /F1 8.0 Tf 0.150 0.200 0.250 rg 46.00 158.00 Td (3. Seguranca & LGPD: Termos versionados \(v1.0-2026\), exportacao JSON integral \(Art. 18\) e trilha de auditoria estruturada.) Tj ET
+BT /F1 8.0 Tf 0.150 0.200 0.250 rg 46.00 141.00 Td (4. Experiencia do Usuario: Interfaces limpas sem jargao tecnico, organizadas em hubs centrais com botao 'Voltar a Tela Inicial'.) Tj ET
+BT /F1 8.0 Tf 0.150 0.200 0.250 rg 46.00 124.00 Td (5. Responsividade Mobile: Adicionado botao direto de Logout na navbar superior mobile, resolvendo a alternancia de perfis.) Tj ET
+BT /F1 8.0 Tf 0.150 0.200 0.250 rg 46.00 107.00 Td (6. Divida Tecnica Principal: Integracao do frontend SPA ao backend Python/Flask em nuvem \(atualmente simulado em memoria/localStorage\).) Tj ET
+BT /F1 8.0 Tf 0.150 0.200 0.250 rg 46.00 90.00 Td (7. Recomendacao Imediata: Execucao da suite de testes de concorrencia e homologacao do banco PostgreSQL em container.) Tj ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 7794 >>
+stream
+1.00 w 0.020 0.520 0.350 rg 0.00 804.00 595.28 38.00 re f
+1.00 w 0.010 0.400 0.260 rg 0.00 800.00 595.28 4.00 re f
+1.00 w 1.000 1.000 1.000 rg 36.00 810.00 24.00 24.00 re f
+BT /F2 11.0 Tf 0.020 0.450 0.300 rg 41.50 817.00 Td (DP) Tj ET
+BT /F2 9.5 Tf 1.000 1.000 1.000 rg 68.00 823.00 Td (DOEPET | RELATORIO EXECUTIVO & AUDITORIA DE REQUISITOS) Tj ET
+BT /F1 7.5 Tf 0.850 0.950 0.900 rg 68.00 811.00 Td (Matriz de Rastreabilidade de Requisitos Funcionais \(MoSCoW\)) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 494.28 817.00 Td (Pagina 2 de 5) Tj ET
+0.75 w 0.850 0.850 0.850 RG 36.00 34.00 m 559.28 34.00 l S
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 36.00 22.00 Td (DoePet - Plataforma para Gestao e Mobilizacao de Doadores de Sangue Animal) Tj ET
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 374.28 22.00 Td (Auditoria de Software | Scrum/Kanban | LGPD) Tj ET
+BT /F2 14.0 Tf 0.080 0.120 0.160 rg 36.00 765.00 Td (Matriz de Requisitos Funcionais \(RF01 a RF13\)) Tj ET
+BT /F1 8.5 Tf 0.350 0.400 0.450 rg 36.00 750.00 Td (Status de Implementacao e Criterios de Aceite \(Definition of Done\)) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.850 0.880 0.900 RG 36.00 60.00 523.28 675.00 re B
+1.00 w 0.940 0.960 0.980 rg 36.00 713.00 523.28 22.00 re f
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 42.00 720.00 Td (ID / US) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 84.00 720.00 Td (REQUISITO / USER STORY) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 211.00 720.00 Td (PRIORIDADE) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 271.00 720.00 Td (CRITERIOS DE ACEITE AUDITADOS NO APP) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 476.00 720.00 Td (STATUS / EVIDENCIA) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 707.00 m 559.28 707.00 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 694.00 Td (RF01/US01) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 694.00 Td (Cadastro da instituicao) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 694.00 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 694.00 Td (CNPJ, email, razao social, CRMV, capacidade diar) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 694.00 Td (100% ATINGIDO \(AuthView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 657.50 m 559.28 657.50 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 644.50 Td (RF02/US02) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 644.50 Td (Cadastro do tutor) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 644.50 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 644.50 Td (CPF unico, email, whatsapp, politica aceita, ter) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 644.50 Td (100% ATINGIDO \(AuthView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 608.00 m 559.28 608.00 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 595.00 Td (RF03/US03) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 595.00 Td (Cadastro dos animais) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 595.00 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 595.00 Td (Vinculo ao tutor, especie \(cao/gato\), peso, data) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 595.00 Td (100% ATINGIDO \(TutorView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 558.50 m 559.28 558.50 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 545.50 Td (RF04/US04) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 545.50 Td (Controle de estoque) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 545.50 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 545.50 Td (Volume em mL, especie obrigatoria, validade 40 d) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 545.50 Td (100% ATINGIDO \(InstitutionView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 509.00 m 559.28 509.00 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 496.00 Td (RF05/US05) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 496.00 Td (Alerta de necessidade) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 496.00 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 496.00 Td (Especie, tipo sanguineo, volume solicitado, urge) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 496.00 Td (100% ATINGIDO \(InstitutionView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 459.50 m 559.28 459.50 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 446.50 Td (RF06/US06) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 446.50 Td (Notificacao push) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 446.50 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 446.50 Td (Filtragem apenas de publico compativel e apto, r) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 446.50 Td (100% ATINGIDO \(Needs/Alerts\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 410.00 m 559.28 410.00 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 397.00 Td (RF07/US07) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 397.00 Td (Confirmacao de interesse) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 397.00 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 397.00 Td (Tutor manifesta interesse associando pet apto, c) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 397.00 Td (100% ATINGIDO \(Tutor/Clinica\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 360.50 m 559.28 360.50 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 347.50 Td (RF08/US08) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 347.50 Td (Gestao de agendamentos) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 347.50 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 347.50 Td (Slots por data/hora, impedimento de conflito/ove) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 347.50 Td (100% ATINGIDO \(InstitutionView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 311.00 m 559.28 311.00 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 298.00 Td (RF09/US09) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 298.00 Td (Doacao & triagem clinica) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 298.00 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 298.00 Td (Triagem veterinaria \(hematocrito, peso, CRMV\), e) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 298.00 Td (100% ATINGIDO \(InstitutionView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 261.50 m 559.28 261.50 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 248.50 Td (RF10/US10) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 248.50 Td (Geracao de voucher) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 248.50 Td (SHOULD) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 248.50 Td (Codigo unico DOEPET-XXX, beneficio, validade, re) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 248.50 Td (100% ATINGIDO \(Vouchers\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 212.00 m 559.28 212.00 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 199.00 Td (RF11/US11) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 199.00 Td (Edicao do tutor) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 199.00 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 199.00 Td (Alteracao cadastral validada, direitos LGPD, por) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 199.00 Td (100% ATINGIDO \(TutorView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 162.50 m 559.28 162.50 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 149.50 Td (RF12/US12) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 149.50 Td (Edicao da instituicao) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 149.50 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 149.50 Td (Atualizacao de dados operacionais, endereco e co) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 149.50 Td (100% ATINGIDO \(InstitutionView\)) Tj ET
+0.50 w 0.900 0.920 0.940 RG 36.00 113.00 m 559.28 113.00 l S
+BT /F2 7.5 Tf 0.020 0.450 0.300 rg 42.00 100.00 Td (RF13/US13) Tj ET
+BT /F2 7.5 Tf 0.150 0.200 0.250 rg 84.00 100.00 Td (Gestao de funcionarios) Tj ET
+BT /F1 7.0 Tf 0.400 0.400 0.400 rg 211.00 100.00 Td (MUST) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 271.00 100.00 Td (RBAC institucional, perfis de acesso, protecao c) Tj ET
+BT /F2 7.0 Tf 0.020 0.520 0.350 rg 476.00 100.00 Td (100% ATINGIDO \(InstitutionView\)) Tj ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 9538 >>
+stream
+1.00 w 0.020 0.520 0.350 rg 0.00 804.00 595.28 38.00 re f
+1.00 w 0.010 0.400 0.260 rg 0.00 800.00 595.28 4.00 re f
+1.00 w 1.000 1.000 1.000 rg 36.00 810.00 24.00 24.00 re f
+BT /F2 11.0 Tf 0.020 0.450 0.300 rg 41.50 817.00 Td (DP) Tj ET
+BT /F2 9.5 Tf 1.000 1.000 1.000 rg 68.00 823.00 Td (DOEPET | RELATORIO EXECUTIVO & AUDITORIA DE REQUISITOS) Tj ET
+BT /F1 7.5 Tf 0.850 0.950 0.900 rg 68.00 811.00 Td (Conformidade das Regras de Negocio e Seguranca Clinica) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 494.28 817.00 Td (Pagina 3 de 5) Tj ET
+0.75 w 0.850 0.850 0.850 RG 36.00 34.00 m 559.28 34.00 l S
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 36.00 22.00 Td (DoePet - Plataforma para Gestao e Mobilizacao de Doadores de Sangue Animal) Tj ET
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 374.28 22.00 Td (Auditoria de Software | Scrum/Kanban | LGPD) Tj ET
+BT /F2 14.0 Tf 0.080 0.120 0.160 rg 36.00 765.00 Td (Regras de Negocio Auditadas \(RN01 a RN20\)) Tj ET
+BT /F1 8.5 Tf 0.350 0.400 0.450 rg 36.00 750.00 Td (Verificacao de Regras Clinicas, Integridade Transacional e LGPD) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.850 0.880 0.900 RG 36.00 55.00 523.28 685.00 re B
+1.00 w 0.940 0.960 0.980 rg 36.00 720.00 523.28 20.00 re f
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 42.00 726.00 Td (REGRA) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 78.00 726.00 Td (DESCRICAO NORMATIVA) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 306.00 726.00 Td (MECANISMO DE ENFORCEMENT NO APP) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 486.00 726.00 Td (CONFORMIDADE) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 715.00 m 559.28 715.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 704.00 Td (RN01) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 704.00 Td (E-mail unico no contexto da plataforma) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 704.00 Td (Validacao no formulario de registro e mo) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 704.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 683.00 m 559.28 683.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 672.00 Td (RN02) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 672.00 Td (Instituicao com cadastro unico para o mesmo ) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 672.00 Td (Bloqueio de duplicidade de CNPJ no cadas) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 672.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 651.00 m 559.28 651.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 640.00 Td (RN03) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 640.00 Td (Funcionarios operam apenas dados de sua inst) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 640.00 Td (Filtro estrito por institutionId em toda) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 640.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 619.00 m 559.28 619.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 608.00 Td (RN04) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 608.00 Td (Estoque nao pode assumir volume negativo) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 608.00 Td (Validacao transacional bloqueia saidas a) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 608.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 587.00 m 559.28 587.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 576.00 Td (RN05) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 576.00 Td (Toda operacao de estoque deve possuir especi) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 576.00 Td (Especie CANINA ou FELINA mandatoria em t) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 576.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 555.00 m 559.28 555.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 544.00 Td (RN06) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 544.00 Td (Alerta deve possuir instituicao, especie, ne) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 544.00 Td (Formulario exige tipo sanguineo, volume ) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 544.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 523.00 m 559.28 523.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 512.00 Td (RN07) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 512.00 Td (Somente usuarios compativeis recebem alerta) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 512.00 Td (Filtro de especie e aptidao clinica \(pes) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 512.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 491.00 m 559.28 491.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 480.00 Td (RN08) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 480.00 Td (Nao pode haver overbooking alem da capacidad) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 480.00 Td (Slots calculados conforme capacidade dia) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 480.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 459.00 m 559.28 459.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 448.00 Td (RN09) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 448.00 Td (Somente instituicao autorizada confirma doac) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 448.00 Td (Exige identificacao de CRMV do veterinar) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 448.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 427.00 m 559.28 427.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 416.00 Td (RN10) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 416.00 Td (Doacoes confirmadas devem permanecer auditav) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 416.00 Td (Registro imutavel em trilha AuditLog com) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 416.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 395.00 m 559.28 395.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 384.00 Td (RN11) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 384.00 Td (Cada voucher possui codigo unico) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 384.00 Td (Gerador alfanumerico com prefixo DOEPET ) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 384.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 363.00 m 559.28 363.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 352.00 Td (RN12) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 352.00 Td (Voucher expirado/usado nao pode ser reutiliz) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 352.00 Td (Validacao de status ATIVO com bloqueio d) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 352.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 331.00 m 559.28 331.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 320.00 Td (RN13) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 320.00 Td (Autorizacao e validada no backend) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 320.00 Td (Especificacao de decorators @require_rol) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 320.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 299.00 m 559.28 299.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 288.00 Td (RN14) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 288.00 Td (Dados pessoais minimizados e protegidos) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 288.00 Td (Anonimizacao parcial e protecao de conta) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 288.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 267.00 m 559.28 267.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 256.00 Td (RN15) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 256.00 Td (Doepet nao substitui avaliacao veterinaria) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 256.00 Td (Triagem presencial mandatoria \(peso + he) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 256.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 235.00 m 559.28 235.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 224.00 Td (RN16) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 224.00 Td (Animal potencial doador != aptidao clinica) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 224.00 Td (Status APTO, EM ANALISE e INAPTO claros ) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 224.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 203.00 m 559.28 203.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 192.00 Td (RN17) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 192.00 Td (Operacoes criticas devem ser rastreaveis) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 192.00 Td (X-Correlation-ID injetado e rastreabilid) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 192.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 171.00 m 559.28 171.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 160.00 Td (RN18) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 160.00 Td (Envio de alerta nao significa aceite/presenc) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 160.00 Td (Fluxo explicito de manifestacao e agenda) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 160.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 139.00 m 559.28 139.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 128.00 Td (RN19) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 128.00 Td (Operacoes criticas devem possuir idempotenci) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 128.00 Td (Idempotency key simulada na confirmacao ) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 128.00 Td ([OK] CONFORME) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 107.00 m 559.28 107.00 l S
+BT /F2 7.0 Tf 0.020 0.450 0.300 rg 42.00 96.00 Td (RN20) Tj ET
+BT /F1 7.0 Tf 0.150 0.200 0.250 rg 78.00 96.00 Td (Estoque e agenda devem usar operacoes transa) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 306.00 96.00 Td (Atomicidade garantida na reserva e baixa) Tj ET
+BT /F2 6.8 Tf 0.020 0.500 0.320 rg 486.00 96.00 Td ([OK] CONFORME) Tj ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 6966 >>
+stream
+1.00 w 0.020 0.520 0.350 rg 0.00 804.00 595.28 38.00 re f
+1.00 w 0.010 0.400 0.260 rg 0.00 800.00 595.28 4.00 re f
+1.00 w 1.000 1.000 1.000 rg 36.00 810.00 24.00 24.00 re f
+BT /F2 11.0 Tf 0.020 0.450 0.300 rg 41.50 817.00 Td (DP) Tj ET
+BT /F2 9.5 Tf 1.000 1.000 1.000 rg 68.00 823.00 Td (DOEPET | RELATORIO EXECUTIVO & AUDITORIA DE REQUISITOS) Tj ET
+BT /F1 7.5 Tf 0.850 0.950 0.900 rg 68.00 811.00 Td (Inventario de Dividas Tecnicas e Analise Arquitetural) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 494.28 817.00 Td (Pagina 4 de 5) Tj ET
+0.75 w 0.850 0.850 0.850 RG 36.00 34.00 m 559.28 34.00 l S
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 36.00 22.00 Td (DoePet - Plataforma para Gestao e Mobilizacao de Doadores de Sangue Animal) Tj ET
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 374.28 22.00 Td (Auditoria de Software | Scrum/Kanban | LGPD) Tj ET
+BT /F2 14.0 Tf 0.080 0.120 0.160 rg 36.00 765.00 Td (Inventario de Dividas Tecnicas \(Technical Debt\)) Tj ET
+BT /F1 8.5 Tf 0.350 0.400 0.450 rg 36.00 750.00 Td (Gaps Identificados entre o Estado Atual do App e o Modelo Alvo em Nuvem) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.880 0.900 0.920 RG 36.00 622.00 523.28 100.00 re B
+1.00 w 0.850 0.250 0.200 rg 36.00 719.00 523.28 3.00 re f
+BT /F2 9.0 Tf 0.100 0.150 0.200 rg 46.00 706.00 Td ([DT-01] Desacoplamento Frontend SPA x Backend Python/Flask Standalone) Tj ET
+1.00 w 0.980 0.920 0.900 rg 489.28 702.00 68.48 12.00 re f
+BT /F2 7.0 Tf 0.850 0.250 0.200 rg 493.28 705.50 Td (PRIORIDADE: ALTA) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 689.00 Td (Impacto Arquitetural: O backend em Python/Flask esta modelado como blueprint de codigo no FlaskCodeViewer, porem a execu) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 677.00 Td (cao real do MVP ocorre em memoria e localStorage no client-side.) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 659.00 Td (Solucao Recomendada: Subir o servico REST em Flask 3.12+ com SQLAlchemy e Gunicorn em container Docker, desacoplando o b) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 647.00 Td (uild React para consumir a API via endpoints /api/v1/*.) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.880 0.900 0.920 RG 36.00 514.00 523.28 100.00 re B
+1.00 w 0.850 0.250 0.200 rg 36.00 611.00 523.28 3.00 re f
+BT /F2 9.0 Tf 0.100 0.150 0.200 rg 46.00 598.00 Td ([DT-02] Persistencia em Banco Relacional PostgreSQL Fisico e Migrations) Tj ET
+1.00 w 0.980 0.920 0.900 rg 489.28 594.00 68.48 12.00 re f
+BT /F2 7.0 Tf 0.850 0.250 0.200 rg 493.28 597.50 Td (PRIORIDADE: ALTA) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 581.00 Td (Impacto Arquitetural: Os dados atuais residem em estado reativo do React. Nao ha conexao ativa com PostgreSQL gerenciado) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 569.00 Td ( nem pipeline de migrations com Alembic.) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 551.00 Td (Solucao Recomendada: Provisionar PostgreSQL no Azure Flexible Server e configurar scripts de versionamento de banco com ) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 539.00 Td (Alembic/Drizzle para garantir DDL e integridade transacional.) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.880 0.900 0.920 RG 36.00 406.00 523.28 100.00 re B
+1.00 w 0.850 0.550 0.150 rg 36.00 503.00 523.28 3.00 re f
+BT /F2 9.0 Tf 0.100 0.150 0.200 rg 46.00 490.00 Td ([DT-03] Mensageria Assincrona e Enfileiramento de Alertas \(Azure Service Bus\)) Tj ET
+1.00 w 0.980 0.950 0.900 rg 489.28 486.00 72.26 12.00 re f
+BT /F2 7.0 Tf 0.850 0.550 0.150 rg 493.28 489.50 Td (PRIORIDADE: MEDIA) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 473.00 Td (Impacto Arquitetural: O envio de alertas aos tutores e computado sincronamente no navegador. Para milhares de tutores, a) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 461.00 Td ( performance pode degradar.) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 443.00 Td (Solucao Recomendada: Conectar ao Azure Service Bus ou Event Grid \(conforme ADR-004 do plano\), delegando o disparo de not) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 431.00 Td (ificacoes a workers assincronos com politicas de retry e DLQ.) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.880 0.900 0.920 RG 36.00 298.00 523.28 100.00 re B
+1.00 w 0.850 0.250 0.200 rg 36.00 395.00 523.28 3.00 re f
+BT /F2 9.0 Tf 0.100 0.150 0.200 rg 46.00 382.00 Td ([DT-04] Autenticacao Segura JWT com Refresh Tokens e Cookies HttpOnly) Tj ET
+1.00 w 0.980 0.920 0.900 rg 489.28 378.00 68.48 12.00 re f
+BT /F2 7.0 Tf 0.850 0.250 0.200 rg 493.28 381.50 Td (PRIORIDADE: ALTA) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 365.00 Td (Impacto Arquitetural: A sessao do usuario e mantida no localStorage sem token criptografico de curta duracao assinado po) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 353.00 Td (r chave privada do servidor.) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 335.00 Td (Solucao Recomendada: Implementar fluxo OAuth2 / JWT \(RS256\) com tempo de expiracao de 15 min, refresh token em cookie Ht) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 323.00 Td (tpOnly/SameSite e integracao com Azure Key Vault para chaves.) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.880 0.900 0.920 RG 36.00 190.00 523.28 100.00 re B
+1.00 w 0.850 0.550 0.150 rg 36.00 287.00 523.28 3.00 re f
+BT /F2 9.0 Tf 0.100 0.150 0.200 rg 46.00 274.00 Td ([DT-05] Observabilidade Distribuida e Tracing \(OpenTelemetry / Correlation ID\)) Tj ET
+1.00 w 0.980 0.950 0.900 rg 489.28 270.00 72.26 12.00 re f
+BT /F2 7.0 Tf 0.850 0.550 0.150 rg 493.28 273.50 Td (PRIORIDADE: MEDIA) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 257.00 Td (Impacto Arquitetural: A entidade AuditLog gera Correlation IDs locais, mas nao ha envio estruturado para servicos como A) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 245.00 Td (zure Application Insights ou Grafana Loki.) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 227.00 Td (Solucao Recomendada: Implementar middleware Flask com OpenTelemetry para injetar cabecalho X-Correlation-ID ponta a pont) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 215.00 Td (a e exportar logs em formato JSON estruturado.) Tj ET
+0.75 w 1.000 1.000 1.000 rg 0.880 0.900 0.920 RG 36.00 82.00 523.28 100.00 re B
+1.00 w 0.850 0.550 0.150 rg 36.00 179.00 523.28 3.00 re f
+BT /F2 9.0 Tf 0.100 0.150 0.200 rg 46.00 166.00 Td ([DT-06] Servico de Push Notification Nativo \(FCM / Web Push API\)) Tj ET
+1.00 w 0.980 0.950 0.900 rg 489.28 162.00 72.26 12.00 re f
+BT /F2 7.0 Tf 0.850 0.550 0.150 rg 493.28 165.50 Td (PRIORIDADE: MEDIA) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 149.00 Td (Impacto Arquitetural: As notificacoes push estao simuladas por toasts e contadores de alerta dentro da aplicacao, sem pu) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 46.00 137.00 Td (sh real em background no celular.) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 119.00 Td (Solucao Recomendada: Registrar Service Worker com VAPID keys e integrar com Firebase Cloud Messaging \(FCM\) ou Azure Noti) Tj ET
+BT /F1 7.5 Tf 0.020 0.450 0.300 rg 46.00 107.00 Td (fication Hubs para entrega com tela apagada.) Tj ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 9097 >>
+stream
+1.00 w 0.020 0.520 0.350 rg 0.00 804.00 595.28 38.00 re f
+1.00 w 0.010 0.400 0.260 rg 0.00 800.00 595.28 4.00 re f
+1.00 w 1.000 1.000 1.000 rg 36.00 810.00 24.00 24.00 re f
+BT /F2 11.0 Tf 0.020 0.450 0.300 rg 41.50 817.00 Td (DP) Tj ET
+BT /F2 9.5 Tf 1.000 1.000 1.000 rg 68.00 823.00 Td (DOEPET | RELATORIO EXECUTIVO & AUDITORIA DE REQUISITOS) Tj ET
+BT /F1 7.5 Tf 0.850 0.950 0.900 rg 68.00 811.00 Td (Pendencias de Testes, Roadmap Futuro e Parecer Final) Tj ET
+BT /F2 8.5 Tf 1.000 1.000 1.000 rg 494.28 817.00 Td (Pagina 5 de 5) Tj ET
+0.75 w 0.850 0.850 0.850 RG 36.00 34.00 m 559.28 34.00 l S
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 36.00 22.00 Td (DoePet - Plataforma para Gestao e Mobilizacao de Doadores de Sangue Animal) Tj ET
+BT /F1 7.5 Tf 0.450 0.450 0.450 rg 374.28 22.00 Td (Auditoria de Software | Scrum/Kanban | LGPD) Tj ET
+BT /F2 14.0 Tf 0.080 0.120 0.160 rg 36.00 765.00 Td (Pendencias de Testes & Backlog Futuro \(Fases 5 e 6\)) Tj ET
+BT /F1 8.5 Tf 0.350 0.400 0.450 rg 36.00 750.00 Td (Plano de Cobertura de Qualidade de Software e Proximos Sprints) Tj ET
+BT /F2 10.0 Tf 0.080 0.120 0.160 rg 36.00 725.00 Td (1. Matriz de Pendencias de Testes \(Secao 3.7 do Plano Executivo\)) Tj ET
+1.00 w 0.850 0.850 0.850 RG 36.00 718.00 m 559.28 718.00 l S
+0.75 w 1.000 1.000 1.000 rg 0.850 0.880 0.900 RG 36.00 575.00 523.28 138.00 re B
+1.00 w 0.940 0.960 0.980 rg 36.00 693.00 523.28 20.00 re f
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 44.00 699.00 Td (NIVEL DE TESTE) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 156.00 699.00 Td (FLUXO OU COMPONENTE ALVO) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 336.00 699.00 Td (CRITERIO DE CONCLUSAO \(DOD\)) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 476.00 699.00 Td (STATUS ATUAL) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 687.00 m 559.28 687.00 l S
+BT /F2 7.0 Tf 0.150 0.200 0.250 rg 44.00 675.00 Td (Testes Unitarios \(pytest\)) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 156.00 675.00 Td (Calculo de volume, validade de 40 dias, ha) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 336.00 675.00 Td (Cobertura de codigo >= 85% nos m) Tj ET
+BT /F2 6.8 Tf 0.850 0.450 0.150 rg 476.00 675.00 Td (PENDENTE \(Backend\)) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 664.00 m 559.28 664.00 l S
+BT /F2 7.0 Tf 0.150 0.200 0.250 rg 44.00 652.00 Td (Testes de Concorrencia) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 156.00 652.00 Td (Concorrencia de estoque \(evitar leituras s) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 336.00 652.00 Td (Zero conflito em 100 requests si) Tj ET
+BT /F2 6.8 Tf 0.850 0.450 0.150 rg 476.00 652.00 Td (PENDENTE \(Stress\)) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 641.00 m 559.28 641.00 l S
+BT /F2 7.0 Tf 0.150 0.200 0.250 rg 44.00 629.00 Td (Testes BDD \(Gherkin\)) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 156.00 629.00 Td (Cenarios da Secao 3.8: agendamento, triage) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 336.00 629.00 Td (Validacao automatizada dos crite) Tj ET
+BT /F2 6.8 Tf 0.850 0.450 0.150 rg 476.00 629.00 Td (PLANEJADO) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 618.00 m 559.28 618.00 l S
+BT /F2 7.0 Tf 0.150 0.200 0.250 rg 44.00 606.00 Td (Testes de Carga \(k6/Locust\)) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 156.00 606.00 Td (SLA RNF05: API p95 < 500 ms; notificacoes ) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 336.00 606.00 Td (Simulacao de 500 doadores simult) Tj ET
+BT /F2 6.8 Tf 0.850 0.450 0.150 rg 476.00 606.00 Td (PENDENTE \(Infra\)) Tj ET
+0.50 w 0.920 0.920 0.920 RG 36.00 595.00 m 559.28 595.00 l S
+BT /F2 7.0 Tf 0.150 0.200 0.250 rg 44.00 583.00 Td (Testes de Seguranca \(SAST\)) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 156.00 583.00 Td (Analise de vulnerabilidades OWASP Top 10, ) Tj ET
+BT /F1 6.8 Tf 0.350 0.400 0.450 rg 336.00 583.00 Td (Zero vulnerabilidades criticas o) Tj ET
+BT /F2 6.8 Tf 0.850 0.450 0.150 rg 476.00 583.00 Td (PLANEJADO \(CI/CD\)) Tj ET
+BT /F2 10.0 Tf 0.080 0.120 0.160 rg 36.00 555.00 Td (2. Backlog Priorizado de Proximas Sprints \(Secao 1.5 do Plano\)) Tj ET
+1.00 w 0.850 0.850 0.850 RG 36.00 548.00 m 559.28 548.00 l S
+0.75 w 0.980 0.990 0.990 rg 0.850 0.900 0.880 RG 36.00 490.00 523.28 42.00 re B
+BT /F2 8.0 Tf 0.020 0.450 0.300 rg 44.00 518.00 Td (SPRINT 10-11 - FASE 5: PROGRAMA DE FIDELIZACAO AVANCADO & PARCEIROS EXTERNOS) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 44.00 504.00 Td (Implementacao de validacao de vouchers via QR Code dinamico, integracao com rede de clinicas e pet shops parceiros para descontos ) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 44.00 494.00 Td (em medicamentos/racao e dashboard consolidado de retencao de doadores.) Tj ET
+0.75 w 0.980 0.990 0.990 rg 0.850 0.900 0.880 RG 36.00 442.00 523.28 42.00 re B
+BT /F2 8.0 Tf 0.020 0.450 0.300 rg 44.00 470.00 Td (SPRINT 12-13 - FASE 6: PILOTO CONTROLADO & HOMOLOGACAO DE BANCO EM NUVEM) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 44.00 456.00 Td (Deploy dos containers no Azure Container Apps, execucao das migrations PostgreSQL em homologacao e inicio do piloto com as primeir) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 44.00 446.00 Td (as 10 clinicas veterinarias credenciadas.) Tj ET
+0.75 w 0.980 0.990 0.990 rg 0.850 0.900 0.880 RG 36.00 394.00 523.28 42.00 re B
+BT /F2 8.0 Tf 0.020 0.450 0.300 rg 44.00 422.00 Td (SPRINT 14 - FASE 6: ESCALABILIDADE, OBSERVABILIDADE & GATEWAY WHATSAPP) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 44.00 408.00 Td (Ativacao do Azure Service Bus para notificacoes assincronas massivas, monitoramento de SLA p95 com Azure Monitor e envio opcional ) Tj ET
+BT /F1 7.0 Tf 0.300 0.350 0.400 rg 44.00 398.00 Td (de avisos de emergencia via WhatsApp Business API.) Tj ET
+BT /F2 10.0 Tf 0.080 0.120 0.160 rg 36.00 375.00 Td (3. Conclusao Executiva e Parecer Tecnico de Prontidao) Tj ET
+1.00 w 0.850 0.850 0.850 RG 36.00 368.00 m 559.28 368.00 l S
+1.00 w 0.960 0.980 0.960 rg 0.800 0.900 0.850 RG 36.00 220.00 523.28 140.00 re B
+BT /F2 10.0 Tf 0.020 0.500 0.320 rg 48.00 342.00 Td (PARECER DA AUDITORIA TECNICA DO PROJETO DOEPET) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 326.00 Td (O projeto DoePet alcancou com exito a maturidade funcional planejada para o MVP, completando o Vertical Slice Prioritario.) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 314.00 Td (A aplicacao apresenta regras de negocio refinadas \(controle de 40 dias de validade, triagem clinica, anti-overbooking,) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 302.00 Td (vouchers unicos de fidelidade e distincao rigorosa entre o volume potencial do tutor e o estoque fisico da clinica\).) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 290.00 Td (A experiencia de usuario \(UX\) foi estritamente polida em paleta esmeralda/preto/branco sem poluiÁ„o visual ou jargoes tecnicos,) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 278.00 Td (e conta com total usabilidade mobile, incluindo botao direto de Logout na barra superior para alternancia de perfis.) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 266.00 Td () Tj ET
+BT /F2 7.8 Tf 0.150 0.200 0.250 rg 48.00 254.00 Td (Recomendacoes para as Proximas Etapas:) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 242.00 Td (1. Conectar a camada de apresentacao React a instancia ativa de PostgreSQL e servico Flask 3.12+ \(DT-01 e DT-02\).) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 230.00 Td (2. Executar testes de estresse e concorrencia de estoque para homologar a garantia ACID de transacoes de sangue \(PT-02\).) Tj ET
+BT /F1 7.8 Tf 0.150 0.200 0.250 rg 48.00 218.00 Td (3. Iniciar o piloto operacional de campo com as clinicas parceiras credenciadas para validar a adesao real da rede.) Tj ET
+0.75 w 0.980 0.990 1.000 rg 0.880 0.900 0.950 RG 36.00 60.00 523.28 145.00 re B
+BT /F2 8.5 Tf 0.150 0.250 0.400 rg 48.00 188.00 Td (TERMO DE HOMOLOGACAO DE REQUISITOS - DOEPET v1.0) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 48.00 172.00 Td (Documento gerado com base no Plano Executivo, Especificacao de Requisitos e Arquitetura de Software.) Tj ET
+BT /F2 7.5 Tf 0.200 0.250 0.300 rg 48.00 160.00 Td (Integrantes Responsaveis: Ricardo | Diego | Jandson | Kauan) Tj ET
+BT /F1 7.5 Tf 0.350 0.400 0.450 rg 48.00 148.00 Td (Metodologia Aplicada: Scrum / Kanban com ciclos de sprint iterativos e Definition of Done validada.) Tj ET
+BT /F2 7.5 Tf 0.020 0.500 0.320 rg 48.00 136.00 Td (Status de Conformidade: APROVADO PARA AVANCO AS FASES 5 E 6 DO ROADMAP.) Tj ET
+0.75 w 0.700 0.700 0.700 RG 46.00 90.00 m 159.32 90.00 l S
+BT /F2 7.5 Tf 0.200 0.200 0.200 rg 56.00 78.00 Td (Ricardo) Tj ET
+BT /F1 6.5 Tf 0.500 0.500 0.500 rg 51.00 68.00 Td (Engenharia de Software) Tj ET
+0.75 w 0.700 0.700 0.700 RG 174.32 90.00 m 287.64 90.00 l S
+BT /F2 7.5 Tf 0.200 0.200 0.200 rg 184.32 78.00 Td (Diego) Tj ET
+BT /F1 6.5 Tf 0.500 0.500 0.500 rg 179.32 68.00 Td (Engenharia de Software) Tj ET
+0.75 w 0.700 0.700 0.700 RG 302.64 90.00 m 415.96 90.00 l S
+BT /F2 7.5 Tf 0.200 0.200 0.200 rg 312.64 78.00 Td (Jandson) Tj ET
+BT /F1 6.5 Tf 0.500 0.500 0.500 rg 307.64 68.00 Td (Engenharia de Software) Tj ET
+0.75 w 0.700 0.700 0.700 RG 430.96 90.00 m 544.28 90.00 l S
+BT /F2 7.5 Tf 0.200 0.200 0.200 rg 440.96 78.00 Td (Kauan) Tj ET
+BT /F1 6.5 Tf 0.500 0.500 0.500 rg 435.96 68.00 Td (Engenharia de Software) Tj ET
+endstream
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000148 00000 n 
+0000000245 00000 n 
+0000000347 00000 n 
+0000000452 00000 n 
+0000000604 00000 n 
+0000010450 00000 n 
+0000010602 00000 n 
+0000018448 00000 n 
+0000018602 00000 n 
+0000028193 00000 n 
+0000028347 00000 n 
+0000035366 00000 n 
+0000035520 00000 n 
+trailer
+<< /Size 16 /Root 1 0 R >>
+startxref
+44670
+%%EOF

@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Equipe e Funcionários - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold">👥 Gestão de Funcionários da Instituição</h1>
+            <p class="text-xs text-slate-500">Acesso seguro e restrito às operações e registros da instituição de saúde veterinária</p>
+        </div>
+        <button onclick="document.getElementById('modal-func').classList.toggle('hidden')"
+                class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2">
+            <span>➕</span> Cadastrar Novo Funcionário
+        </button>
+    </div>
+
+    <!-- Modal Novo Funcionário -->
+    <div id="modal-func" class="hidden p-6 rounded-3xl border border-blue-500/30 bg-blue-500/5 shadow-xl space-y-4">
+        <h2 class="text-lg font-bold text-blue-600 dark:text-blue-400">Adicionar Membro à Equipe Clínica</h2>
+        <form method="POST" action="{{ url_for('institution.funcionarios') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Nome Completo</label>
+                <input type="text" name="nome" required placeholder="Dra. Juliana Mendes"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">CPF</label>
+                <input type="text" name="cpf" required placeholder="000.000.000-00"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Cargo / Função</label>
+                <input type="text" name="cargo" required placeholder="Médica Veterinária Hemoterapeuta"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">CRMV (se aplicável)</label>
+                <input type="text" name="crmv" placeholder="CRMV-SP 54321"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">E-mail de Acesso</label>
+                <input type="email" name="email" required placeholder="juliana@hvet.com.br"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Senha Inicial</label>
+                <input type="password" name="password" required placeholder="••••••••"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div class="sm:col-span-2 lg:col-span-3 flex justify-end">
+                <button type="submit" class="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow transition">
+                    Salvar e Conceder Acesso
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabela da Equipe -->
+    <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+        <h2 class="text-base font-bold">Membros da Equipe ({{ equipe|length }})</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead>
+                    <tr class="border-b border-slate-200 dark:border-slate-700 text-slate-400">
+                        <th class="py-2.5">Nome</th>
+                        <th>Cargo</th>
+                        <th>CRMV</th>
+                        <th>CPF</th>
+                        <th>Status</th>
+                        <th class="text-right pr-2">Ações</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    {% for emp in equipe %}
+                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 font-bold">{{ emp.nome }}</td>
+                            <td>{{ emp.cargo }}</td>
+                            <td class="font-mono">{{ emp.crmv or 'N/A' }}</td>
+                            <td class="font-mono text-slate-400">{{ emp.cpf }}</td>
+                            <td>
+                                <span class="px-2 py-0.5 rounded text-[11px] font-semibold {{ 'bg-emerald-500/10 text-emerald-600' if emp.is_active else 'bg-red-500/10 text-red-600' }}">
+                                    {{ 'ATIVO' if emp.is_active else 'INATIVO' }}
+                                </span>
+                            </td>
+                            <td class="text-right pr-2">
+                                <div class="flex items-center justify-end gap-2">
+                                    <button type="button" onclick="document.getElementById('edit-emp-{{ emp.id }}').classList.remove('hidden')"
+                                            class="px-2.5 py-1 rounded-lg border border-purple-500/30 text-purple-600 hover:bg-purple-500/10 transition font-semibold text-[11px]">
+                                        ✏️ Editar
+                                    </button>
+                                    <button type="button" onclick="document.getElementById('del-emp-{{ emp.id }}').classList.remove('hidden')"
+                                            class="px-2.5 py-1 rounded-lg border border-red-500/30 text-red-600 hover:bg-red-500/10 transition font-semibold text-[11px]">
+                                        🗑️ Remover
+                                    </button>
+                                </div>
+
+                                <!-- Modal Editar inline -->
+                                <div id="edit-emp-{{ emp.id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                                    <div class="w-full max-w-md p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl text-left space-y-4">
+                                        <h3 class="font-bold text-base">Editar Colaborador</h3>
+                                        <form method="POST" action="{{ url_for('institution.editar_funcionario', emp_id=emp.id) }}" class="space-y-3">
+                                            <div>
+                                                <label class="block text-xs font-semibold mb-1">Nome Completo</label>
+                                                <input type="text" name="nome" value="{{ emp.nome }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-xs">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold mb-1">Cargo / Função</label>
+                                                <input type="text" name="cargo" value="{{ emp.cargo }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-xs">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold mb-1">CPF</label>
+                                                <input type="text" name="cpf" value="{{ emp.cpf }}" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-xs">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold mb-1">CRMV</label>
+                                                <input type="text" name="crmv" value="{{ emp.crmv or '' }}" placeholder="CRMV-SP 12345" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-xs">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-semibold mb-1">Status de Acesso</label>
+                                                <select name="is_active" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-xs">
+                                                    <option value="true" {{ 'selected' if emp.is_active else '' }}>Ativo</option>
+                                                    <option value="false" {{ 'selected' if not emp.is_active else '' }}>Inativo</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex justify-end gap-2 pt-2">
+                                                <button type="button" onclick="document.getElementById('edit-emp-{{ emp.id }}').classList.add('hidden')" class="px-4 py-2 rounded-xl border font-bold text-xs">Cancelar</button>
+                                                <button type="submit" class="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs">Salvar Alterações</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Remover inline -->
+                                <div id="del-emp-{{ emp.id }}" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                                    <div class="w-full max-w-sm p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl text-left space-y-4">
+                                        <h3 class="font-bold text-base text-red-600">Remover Colaborador</h3>
+                                        <p class="text-xs text-slate-500">Deseja realmente remover <strong>{{ emp.nome }}</strong> da equipe da clínica? Esta ação revogará os privilégios de acesso.</p>
+                                        <form method="POST" action="{{ url_for('institution.remover_funcionario', emp_id=emp.id) }}" class="flex justify-end gap-2 pt-2">
+                                            <button type="button" onclick="document.getElementById('del-emp-{{ emp.id }}').classList.add('hidden')" class="px-4 py-2 rounded-xl border font-bold text-xs">Cancelar</button>
+                                            <button type="submit" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs">Confirmar Remoção</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="py-4 text-center text-slate-400">Nenhum funcionário cadastrado além do administrador principal.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

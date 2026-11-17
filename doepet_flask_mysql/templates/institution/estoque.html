@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Controle de Estoque de Sangue - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold">🩸 Estoque de Hemocomponentes</h1>
+            <p class="text-xs text-slate-500">Controle seguro de estoque com validação de saldo mínimo e rastreabilidade por espécie e tipo sanguíneo</p>
+        </div>
+        <button onclick="document.getElementById('modal-movimento').classList.toggle('hidden')"
+                class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2">
+            <span>➕</span> Registrar Movimentação Manual
+        </button>
+    </div>
+
+    <!-- Níveis Atuais -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {% for inv in inventarios %}
+            <div class="p-5 rounded-2xl border {{ 'border-red-500/50 bg-red-500/10' if inv.volume_ml < inv.volume_minimo_alerta else 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/60' }} space-y-2">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-black uppercase px-2 py-0.5 rounded-full {{ 'bg-red-600 text-white' if inv.volume_ml < inv.volume_minimo_alerta else 'bg-emerald-600 text-white' }}">
+                        {{ inv.especie }}
+                    </span>
+                    <span class="text-xs font-bold text-slate-500">{{ inv.componente }}</span>
+                </div>
+                <div class="text-lg font-bold">{{ inv.tipo_sanguineo }}</div>
+                <div class="text-3xl font-black {{ 'text-red-600 dark:text-red-400' if inv.volume_ml < inv.volume_minimo_alerta else 'text-emerald-600 dark:text-emerald-400' }}">
+                    {{ inv.volume_ml }} <span class="text-sm font-normal text-slate-400">mL</span>
+                </div>
+                <!-- Alerta de Validade Máxima (40 dias) -->
+                <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-[11px] text-amber-700 dark:text-amber-300">
+                    <span class="font-bold">⏳ Validade máx. 40 dias:</span> Monitoramento ativo por lote e data de coleta
+                </div>
+                <div class="text-[11px] text-slate-500 flex justify-between pt-1">
+                    <span>Mínimo seguro: {{ inv.volume_minimo_alerta }} mL</span>
+                    {% if inv.volume_ml < inv.volume_minimo_alerta %}
+                        <span class="text-red-500 font-bold">ALERTA BAIXO</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Modal de Movimentação -->
+    <div id="modal-movimento" class="hidden p-6 rounded-3xl border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-900 shadow-2xl space-y-4">
+        <div>
+            <h2 class="text-lg font-bold">Registrar Movimentação de Estoque</h2>
+            <p class="text-xs text-slate-500">Para entradas de doação, a data de coleta define a validade máxima inegociável de 40 dias (Norma CPDA-1).</p>
+        </div>
+        <form method="POST" action="{{ url_for('institution.estoque') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Item de Estoque</label>
+                <select name="inventory_id" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    {% for inv in inventarios %}
+                        <option value="{{ inv.id }}">{{ inv.especie }} - {{ inv.tipo_sanguineo }} (Atual: {{ inv.volume_ml }}mL)</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Tipo de Movimento</label>
+                <select name="tipo_movimento" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    <option value="SAIDA_TRANSFUSAO">Saída para Transfusão</option>
+                    <option value="SAIDA_VENCIMENTO">Saída por Vencimento</option>
+                    <option value="ENTRADA_DOACAO">Entrada por Doação</option>
+                    <option value="AJUSTE_AUDITORIA">Ajuste de Auditoria</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Data da Coleta</label>
+                <input type="date" name="data_coleta" value="2026-10-28"
+                       class="w-full px-3 py-2 rounded-xl border border-amber-400 dark:border-amber-600 bg-transparent text-sm">
+                <span class="text-[10px] text-amber-600 block mt-0.5">Validade: +40 dias</span>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Volume (mL)</label>
+                <input type="number" name="volume_delta_ml" required min="1" placeholder="450"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Motivo / Paciente</label>
+                <input type="text" name="motivo" required placeholder="Cirurgia ou Doação programada"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div class="flex items-end">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow transition">
+                    Confirmar Transação
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Tabela Histórica de Movimentações -->
+    <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+        <h2 class="text-base font-bold">📜 Rastreabilidade & Histórico Transacional (Auditoria)</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+                <thead>
+                    <tr class="border-b border-slate-200 dark:border-slate-700 text-slate-400">
+                        <th class="py-2.5">Data / Hora</th>
+                        <th>Tipo</th>
+                        <th>Espécie / Tipo</th>
+                        <th>Delta</th>
+                        <th>Anterior ➔ Posterior</th>
+                        <th>Motivo / Lote</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    {% for mov in movimentacoes %}
+                        <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
+                            <td class="py-2.5 font-mono text-slate-500">{{ mov.created_at.strftime('%d/%m/%Y %H:%M') }}</td>
+                            <td>
+                                <span class="px-2 py-0.5 rounded font-semibold
+                                    {{ 'bg-emerald-500/10 text-emerald-600' if 'ENTRADA' in mov.tipo_movimento else 'bg-red-500/10 text-red-600' }}">
+                                    {{ mov.tipo_movimento }}
+                                </span>
+                            </td>
+                            <td class="font-bold">{{ mov.inventory.especie }} ({{ mov.inventory.tipo_sanguineo }})</td>
+                            <td class="font-bold {{ 'text-emerald-600' if mov.volume_delta_ml > 0 else 'text-red-600' }}">
+                                {{ '+' if mov.volume_delta_ml > 0 else '' }}{{ mov.volume_delta_ml }} mL
+                            </td>
+                            <td>{{ mov.volume_anterior_ml }} mL ➔ <strong>{{ mov.volume_posterior_ml }} mL</strong></td>
+                            <td>{{ mov.motivo }} {% if mov.lote_codigo %}<span class="font-mono text-slate-400">({{ mov.lote_codigo }})</span>{% endif %}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="py-4 text-center text-slate-400">Nenhuma movimentação registrada.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

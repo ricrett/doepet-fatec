@@ -1,0 +1,7 @@
+Generic single-database configuration for DoePet PostgreSQL schema migrations using Alembic.
+
+Comandos úteis:
+  alembic -c doepet_flask_mysql/alembic.ini current
+  alembic -c doepet_flask_mysql/alembic.ini upgrade head
+  alembic -c doepet_flask_mysql/alembic.ini revision --autogenerate -m "descricao"
+  alembic -c doepet_flask_mysql/alembic.ini downgrade -1

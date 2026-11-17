@@ -1,0 +1,85 @@
+name: DoePet CI/CD - PostgreSQL Migrations, Backend Tests & Frontend Build
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  backend-postgres-migrations:
+    name: Backend Flask + PostgreSQL 15 + Alembic
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: doepet
+          POSTGRES_PASSWORD: doepet_ci_password
+          POSTGRES_DB: doepet_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql+psycopg2://doepet:doepet_ci_password@127.0.0.1:5432/doepet_db
+      PYTHONPATH: .
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: pip install -r doepet_flask_mysql/requirements.txt
+
+      - name: Run Alembic migrations (upgrade head)
+        run: alembic -c doepet_flask_mysql/alembic.ini upgrade head
+
+      - name: Verify zero schema drift with Alembic check
+        run: alembic -c doepet_flask_mysql/alembic.ini check
+
+      - name: Run idempotent database seed
+        run: python -m doepet_flask_mysql.seed
+
+      - name: Test migration reversibility (downgrade & re-upgrade)
+        run: |
+          alembic -c doepet_flask_mysql/alembic.ini downgrade base
+          alembic -c doepet_flask_mysql/alembic.ini upgrade head
+          python -m doepet_flask_mysql.seed
+
+      - name: Run pytest integration & business rules suite against PostgreSQL
+        env:
+          TEST_DATABASE_URL: postgresql+psycopg2://doepet:doepet_ci_password@127.0.0.1:5432/doepet_db
+        run: pytest -v doepet_flask_mysql/tests/test_api_v1.py
+
+  frontend-build-lint:
+    name: Frontend TypeScript & Vite Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: TypeScript typecheck
+        run: npm run lint
+
+      - name: Production Vite build
+        run: npm run build

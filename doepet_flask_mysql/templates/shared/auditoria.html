@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Política de Segurança e Conformidade LGPD - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8 max-w-5xl mx-auto">
+    <!-- Cabeçalho Institucional de Privacidade -->
+    <div class="p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/60 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <span class="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-2xl">
+                    🛡️
+                </span>
+                <div>
+                    <h1 class="text-2xl font-bold">Segurança e Proteção de Dados (LGPD)</h1>
+                    <p class="text-xs text-slate-500 mt-0.5">Compromisso com a privacidade de tutores, profissionais veterinários e clínicas conveniadas</p>
+                </div>
+            </div>
+            <span class="self-start sm:self-auto text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-500/20">
+                100% em Conformidade com a Lei 13.709/2018
+            </span>
+        </div>
+
+        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+            O <strong>DoePet</strong> foi projetado segundo os mais rigorosos padrões de proteção da privacidade (<em>Privacy by Design</em>). Nenhuma informação de contato ou localização é comercializada ou compartilhada com terceiros alheios aos procedimentos emergenciais de transfusão e salvamento animal.
+        </p>
+
+        <div class="pt-2 flex flex-wrap items-center gap-3 text-xs">
+            <a href="data:text/plain;charset=utf-8,DECLARAÇÃO%20DE%20CONFORMIDADE%20LGPD%20-%20DOEPET%0A%0AO%20DoePet%20garante%20integral%20cumprimento%20da%20Lei%20Federal%20nº%2013.709%2F2018%20(LGPD).%20Seus%20dados%20são%20utilizados%20exclusivamente%20para%20salvar%20vidas%20em%20transfusões%20animais.%0A%0AContato%20DPO%3A%20dpo%40doepet.com.br"
+               download="doepet_declaracao_conformidade_lgpd.txt"
+               class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition shadow-sm flex items-center gap-2">
+                <span>📄</span> Baixar Declaração em Linguagem Clara (.txt)
+            </a>
+            <a href="mailto:dpo@doepet.com.br"
+               class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition flex items-center gap-2">
+                <span>✉️</span> Falar com o DPO (dpo@doepet.com.br)
+            </a>
+        </div>
+    </div>
+
+    <!-- Pilares de Proteção e Governança -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-2">
+            <div class="text-xl">🔐</div>
+            <h3 class="font-bold text-sm text-slate-900 dark:text-slate-100">Criptografia & Integridade</h3>
+            <p class="text-xs text-slate-500">
+                Senhas protegidas com hashing de alta complexidade (PBKDF2) e tráfego integralmente protegido via TLS/HTTPS.
+            </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-2">
+            <div class="text-xl">🎯</div>
+            <h3 class="font-bold text-sm text-slate-900 dark:text-slate-100">Princípio da Necessidade</h3>
+            <p class="text-xs text-slate-500">
+                Coleta restrita ao estritamente necessário para conectar animais doadores compatíveis a emergências clínicas.
+            </p>
+        </div>
+
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-2">
+            <div class="text-xl">👥</div>
+            <h3 class="font-bold text-sm text-slate-900 dark:text-slate-100">Acesso Restrito & Autorizado</h3>
+            <p class="text-xs text-slate-500">
+                Apenas profissionais cadastrados e vinculados à instituição de saúde veterinária visualizam contatos para agendamento.
+            </p>
+        </div>
+    </div>
+
+    <!-- Direitos dos Titulares de Dados (Art. 18 LGPD) -->
+    <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+        <h2 class="text-base font-bold flex items-center gap-2">
+            <span>📋</span> Direitos do Titular de Dados Pessoais
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+                <span class="font-bold text-slate-800 dark:text-slate-200 block mb-1">Acesso e Portabilidade</span>
+                <span class="text-slate-500">O titular pode exportar seus dados a qualquer momento em formato legível por máquina (JSON).</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+                <span class="font-bold text-slate-800 dark:text-slate-200 block mb-1">Correção e Atualização</span>
+                <span class="text-slate-500">Atualização imediata de dados cadastrais pelo próprio painel do tutor ou da clínica.</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+                <span class="font-bold text-slate-800 dark:text-slate-200 block mb-1">Revogação do Consentimento</span>
+                <span class="text-slate-500">Direito de desativar o recebimento de alertas de emergência ou solicitar exclusão da conta.</span>
+            </div>
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+                <span class="font-bold text-slate-800 dark:text-slate-200 block mb-1">Canal Direto com o DPO</span>
+                <span class="text-slate-500">Contato direto com a equipe de proteção de dados através do e-mail <code>dpo@doepet.com.br</code>.</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

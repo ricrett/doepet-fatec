@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro de Animais Doadores - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold">🐾 Cadastro e Gestão de Pets Doadores</h1>
+            <p class="text-xs text-slate-500">Cadastro de cães e gatos com avaliação prévia de perfil e confirmação presencial pela clínica conveniada</p>
+        </div>
+        <button onclick="document.getElementById('modal-pet').classList.toggle('hidden')"
+                class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition flex items-center gap-2">
+            <span>➕</span> Cadastrar Animal
+        </button>
+    </div>
+
+    <!-- Modal Novo Pet -->
+    <div id="modal-pet" class="hidden p-6 rounded-3xl border border-emerald-500/30 bg-emerald-500/5 shadow-xl space-y-4">
+        <h2 class="text-lg font-bold text-emerald-600 dark:text-emerald-400">Cadastrar Cão ou Gato Doador</h2>
+        <form method="POST" action="{{ url_for('tutor.pets') }}" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Nome do Pet</label>
+                <input type="text" name="nome" required placeholder="Thor"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Espécie</label>
+                <select name="especie" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    <option value="CANINA">Canina (Cão)</option>
+                    <option value="FELINA">Felina (Gato)</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Raça</label>
+                <input type="text" name="raca" required placeholder="Labrador / SRD"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Sexo</label>
+                <select name="sexo" required class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    <option value="MACHO">Macho</option>
+                    <option value="FEMEA">Fêmea</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Data de Nascimento</label>
+                <input type="date" name="data_nascimento" required
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Peso Aferido (kg)</label>
+                <input type="number" step="0.1" name="peso_kg" required placeholder="28.5"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold uppercase mb-1">Tipo Sanguíneo (se souber)</label>
+                <select name="tipo_sanguineo" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm">
+                    <option value="DESCONHECIDO">Desconhecido (Teste na clínica)</option>
+                    <option value="DEA 1.1 Negativo">DEA 1.1 Negativo</option>
+                    <option value="DEA 1.1 Positivo">DEA 1.1 Positivo</option>
+                    <option value="Tipo A">Tipo A</option>
+                    <option value="Tipo B">Tipo B</option>
+                </select>
+            </div>
+
+            <div class="sm:col-span-2 lg:col-span-4 flex flex-wrap gap-6 text-xs p-3 rounded-xl bg-slate-100 dark:bg-slate-900/40">
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="castrado" checked class="h-4 w-4 rounded text-emerald-600">
+                    <span>Animal Castrado</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="vacinado" checked class="h-4 w-4 rounded text-emerald-600">
+                    <span>Vacinas V8/V10/Antirrábica em dia</span>
+                </label>
+                <label class="flex items-center gap-2">
+                    <input type="checkbox" name="vermifugado" checked class="h-4 w-4 rounded text-emerald-600">
+                    <span>Vermifugação e Antipulgas em dia</span>
+                </label>
+            </div>
+
+            <div class="sm:col-span-2 lg:col-span-4 flex justify-end">
+                <button type="submit" class="px-6 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow transition">
+                    Salvar e Avaliar Elegibilidade
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de Pets -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for pet in pets %}
+            <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 shadow-sm space-y-4">
+                <div class="flex items-center justify-between">
+                    <span class="text-3xl">{{ '🐕' if pet.especie == 'CANINA' else '🐈' }}</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-bold
+                        {% if pet.status_elegibilidade == 'APTO' %} bg-emerald-500/10 text-emerald-600 border border-emerald-500/20
+                        {% elif pet.status_elegibilidade == 'EM_ANALISE' %} bg-amber-500/10 text-amber-600 border border-amber-500/20
+                        {% else %} bg-red-500/10 text-red-600 border border-red-500/20 {% endif %}">
+                        {{ pet.status_elegibilidade }}
+                    </span>
+                </div>
+
+                <div>
+                    <h3 class="text-lg font-bold">{{ pet.nome }}</h3>
+                    <p class="text-xs text-slate-500">{{ pet.especie }} • {{ pet.raca }} • {{ pet.sexo }}</p>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-xs p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/50">
+                    <div>
+                        <span class="text-slate-400 block">Peso</span>
+                        <span class="font-bold text-slate-700 dark:text-slate-300">{{ pet.peso_kg }} kg</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Tipo Sangue</span>
+                        <span class="font-bold text-slate-700 dark:text-slate-300">{{ pet.tipo_sanguineo }}</span>
+                    </div>
+                </div>
+
+                {% if pet.status_elegibilidade == 'APTO' %}
+                    <p class="text-[11px] text-emerald-600 dark:text-emerald-400">
+                        ✨ Animal apto para triagem clínica presencial! Receberá alertas de emergência na região.
+                    </p>
+                {% else %}
+                    <p class="text-[11px] text-amber-600 dark:text-amber-400">
+                        ⚠️ Peso abaixo do mínimo estipulado para doação (Cão ≥ 25kg / Gato ≥ 4kg).
+                    </p>
+                {% endif %}
+
+                <div class="pt-3 border-t border-slate-100 dark:border-slate-700/50 flex justify-between items-center text-xs">
+                    <span class="text-slate-400 text-[11px]">ID: #{{ pet.id }}</span>
+                    <form method="POST" action="{{ url_for('tutor.excluir_pet', pet_id=pet.id) }}" onsubmit="return confirm('Deseja realmente excluir o pet {{ pet.nome }} do cadastro?');" class="inline">
+                        <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-semibold flex items-center gap-1 transition">
+                            🗑️ Excluir pet
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

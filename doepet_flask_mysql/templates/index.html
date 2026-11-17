@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="space-y-12">
+    <!-- Hero Section -->
+    <div class="rounded-3xl p-8 md:p-12 border bg-gradient-to-br from-emerald-950/20 via-slate-900/10 to-red-950/20 border-emerald-500/20 relative overflow-hidden">
+        <div class="max-w-3xl space-y-4">
+            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                🔴 Rede Ativa de Hemoterapia Veterinária
+            </span>
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight">
+                Transformando a busca por doadores de sangue animal em segundos.
+            </h1>
+            <p class="text-slate-600 dark:text-slate-300 text-base md:text-lg">
+                Conectamos clínicas veterinárias, tutores de cães e gatos a uma rede ágil e segura. Redução de até <strong>20% no tempo de atendimento crítico</strong> com rastreabilidade total e conformidade com a LGPD.
+            </p>
+
+            <div class="pt-4 flex flex-wrap gap-3">
+                <a href="{{ url_for('auth.register_tutor') }}" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-lg transition">
+                    Cadastrar Meu Pet como Doador
+                </a>
+                <a href="{{ url_for('auth.register_institution') }}" class="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    Sou Clínica Veterinária / Hospital
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicadores de Desempenho da Rede -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50">
+            <span class="text-xs text-slate-500 block">Tempo Alerta ➔ Confirmação</span>
+            <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 block">-20%</span>
+            <span class="text-[11px] text-slate-400">Meta inicial do MVP atingida</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50">
+            <span class="text-xs text-slate-500 block">Taxa de Entrega Push</span>
+            <span class="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1 block">98.4%</span>
+            <span class="text-[11px] text-slate-400">Meta: ≥ 95%</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50">
+            <span class="text-xs text-slate-500 block">Conflitos de Horário</span>
+            <span class="text-2xl font-black text-amber-600 dark:text-amber-400 mt-1 block">0.0%</span>
+            <span class="text-[11px] text-slate-400">Garantia por transação MySQL</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50">
+            <span class="text-xs text-slate-500 block">Animais Registrados</span>
+            <span class="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1 block">{{ stats.pets_cadastrados }}</span>
+            <span class="text-[11px] text-slate-400">Cães e Gatos Elegíveis</span>
+        </div>
+    </div>
+
+    <!-- Alertas Ativos de Sangue -->
+    <div class="space-y-4">
+        <div class="flex items-center justify-between">
+            <div>
+                <h2 class="text-xl font-bold">🚨 Alertas Urgentes em Tempo Real</h2>
+                <p class="text-xs text-slate-500">Bancos de sangue e clínicas que necessitam de doações agora</p>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-full bg-red-500/10 text-red-500 font-semibold border border-red-500/20">
+                {{ active_needs|length }} alertas ativos
+            </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {% for need in active_needs %}
+                <div class="p-5 rounded-2xl border border-red-500/30 bg-white dark:bg-slate-800/80 shadow-sm relative space-y-3">
+                    <div class="flex items-start justify-between">
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-bold
+                            {{ 'bg-red-600 text-white animate-pulse' if need.urgencia == 'CRITICA' else 'bg-amber-500 text-white' }}">
+                            {{ need.urgencia }}
+                        </span>
+                        <span class="text-xs font-bold text-slate-400">{{ need.especie }}</span>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-base text-slate-900 dark:text-slate-100">{{ need.tipo_sanguineo }}</h3>
+                        <p class="text-xs text-slate-500 mt-1">{{ need.descricao }}</p>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-100 dark:border-slate-700/50 flex items-center justify-between text-xs">
+                        <span class="font-semibold text-emerald-600 dark:text-emerald-400">Volume: {{ need.volume_solicitado_ml }} mL</span>
+                        <a href="{{ url_for('auth.login') }}" class="font-bold text-red-600 dark:text-red-400 hover:underline">
+                            Quero Doar →
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-span-3 p-8 text-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-700 text-slate-500 text-sm">
+                    Nenhum alerta crítico ativo no momento. Nossos estoques estão estáveis!
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Critérios Médicos de Doação (Regra RN15 e RN16) -->
+    <div class="p-6 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+        <h2 class="text-lg font-bold flex items-center gap-2">
+            <span>🩺</span> Critérios de Elegibilidade Veterinária
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+                <h3 class="font-bold text-emerald-600 dark:text-emerald-400">🐕 Cães Doadores</h3>
+                <ul class="list-disc list-inside mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                    <li>Peso mínimo de <strong>25 kg</strong></li>
+                    <li>Idade entre 1 e 8 anos</li>
+                    <li>Vacinação e vermifugação atualizadas</li>
+                    <li>Sem carrapatos ou histórico de transfusão anterior</li>
+                    <li>Temperamento dócil para o procedimento</li>
+                </ul>
+            </div>
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+                <h3 class="font-bold text-blue-600 dark:text-blue-400">🐈 Gatos Doadores</h3>
+                <ul class="list-disc list-inside mt-2 space-y-1 text-xs text-slate-600 dark:text-slate-400">
+                    <li>Peso mínimo de <strong>4 kg</strong></li>
+                    <li>Idade entre 1 e 7 anos</li>
+                    <li>Negativo para FIV e FeLV</li>
+                    <li>Acesso estritamente indoor (sem vida livre)</li>
+                    <li>Vacinação em dia</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Agendamentos e Triagem de Doadores - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <div>
+        <h1 class="text-2xl font-bold">🩺 Triagem Clínica e Confirmação de Doação</h1>
+        <p class="text-xs text-slate-500">Capacidade de agendamento organizada com triagem veterinária presencial para máxima segurança do doador</p>
+    </div>
+
+    {% if interesses %}
+    <div class="p-6 rounded-3xl border border-emerald-500/30 bg-emerald-500/5 space-y-4">
+        <h2 class="text-base font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+            <span>🐾</span> Tutores Interessados em Doar (Aguardando Horário)
+        </h2>
+        <div class="divide-y divide-emerald-500/20">
+            {% for int in interesses %}
+            <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div>
+                    <span class="font-bold text-sm text-slate-900 dark:text-slate-100">{{ int.pet.nome }} ({{ int.pet.especie }})</span> • {{ int.pet.peso_kg }} kg
+                    <p class="text-slate-500 mt-0.5">Tutor: {{ int.tutor.nome }} • Contato: {{ int.tutor.telefone }}</p>
+                </div>
+                <form method="POST" action="{{ url_for('institution.agendar_interesse', interest_id=int.id) }}">
+                    <button type="submit" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow transition cursor-pointer">
+                        Agendar Horário na Clínica
+                    </button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Lista de Agendamentos / Triagem -->
+    <div class="space-y-4">
+        {% for app in appointments %}
+            <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 shadow-sm space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-700/50 pb-3">
+                    <div class="flex items-center gap-3">
+                        <span class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold text-lg">
+                            {{ '🐕' if app.pet.especie == 'CANINA' else '🐈' }}
+                        </span>
+                        <div>
+                            <h3 class="font-bold text-base">{{ app.pet.nome }} ({{ app.pet.raca }} • {{ app.pet.especie }})</h3>
+                            <p class="text-xs text-slate-500">Tutor: {{ app.tutor.nome }} ({{ app.tutor.telefone }}) • Slot: {{ app.slot_codigo }}</p>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="px-3 py-1 rounded-full text-xs font-bold
+                            {% if app.status == 'ATTENDED' %} bg-emerald-500/10 text-emerald-600 border border-emerald-500/20
+                            {% elif app.status == 'CONFIRMED' %} bg-blue-500/10 text-blue-600 border border-blue-500/20
+                            {% else %} bg-amber-500/10 text-amber-600 border border-amber-500/20 {% endif %}">
+                            {{ app.status }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+                    <div>
+                        <span class="text-slate-400 block">Horário Marcado</span>
+                        <span class="font-bold text-slate-700 dark:text-slate-300">{{ app.data_hora.strftime('%d/%m/%Y às %H:%M') }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Peso Declarado</span>
+                        <span class="font-bold text-slate-700 dark:text-slate-300">{{ app.pet.peso_kg }} kg</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Tipo Sanguíneo</span>
+                        <span class="font-bold text-slate-700 dark:text-slate-300">{{ app.pet.tipo_sanguineo }}</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block">Vacinas / Castrado</span>
+                        <span class="font-bold text-emerald-600">Sim / Sim</span>
+                    </div>
+                </div>
+
+                {% if app.status != 'ATTENDED' %}
+                    <!-- Formulário de Triagem Veterinária e Registro de Doação (US09) -->
+                    <div class="mt-4 p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 space-y-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                            🩺 Realizar Triagem Clínica e Coletar Doação (Médico Veterinário)
+                        </h4>
+
+                        <form method="POST" action="{{ url_for('institution.confirmar_doacao', appointment_id=app.id) }}"
+                              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                            <div>
+                                <label class="block font-semibold mb-1">CRMV do Veterinário Coletor</label>
+                                <input type="text" name="veterinario_crmv" required value="{{ institution.crmv_responsavel }}"
+                                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent">
+                            </div>
+                            <div>
+                                <label class="block font-semibold mb-1">Peso Aferido na Balança (kg)</label>
+                                <input type="number" step="0.1" name="peso_aferido" required value="{{ app.pet.peso_kg }}"
+                                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent">
+                            </div>
+                            <div>
+                                <label class="block font-semibold mb-1">Hematócrito (%) [Mínimo: 37%]</label>
+                                <input type="number" step="0.1" name="hematocrito" required value="42.0"
+                                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent">
+                            </div>
+                            <div>
+                                <label class="block font-semibold mb-1">Volume Coletado (mL)</label>
+                                <input type="number" name="volume_coletado_ml" required value="450"
+                                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block font-semibold mb-1">Tipo Sanguíneo Confirmado no Teste Rápido</label>
+                                <select name="tipo_sanguineo_confirmado" class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent">
+                                    <option value="DEA 1.1 Negativo">Canino: DEA 1.1 Negativo (Doador Universal)</option>
+                                    <option value="DEA 1.1 Positivo">Canino: DEA 1.1 Positivo</option>
+                                    <option value="Tipo A">Felino: Tipo A</option>
+                                    <option value="Tipo B">Felino: Tipo B</option>
+                                </select>
+                            </div>
+                            <div class="sm:col-span-2 flex items-end">
+                                <button type="submit" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition">
+                                    Aprovar Triagem, Inserir no Estoque & Emitir Voucher
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                {% else %}
+                    <!-- Detalhes da Doação Realizada -->
+                    {% if app.donation %}
+                        <div class="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-xs flex flex-wrap items-center justify-between gap-2">
+                            <span>✅ Doação confirmada: <strong>{{ app.donation.volume_coletado_ml }} mL</strong> | Lote: <strong class="font-mono">{{ app.donation.lote_bolsa }}</strong></span>
+                            {% if app.donation.voucher %}
+                                <span class="px-2.5 py-1 rounded-lg bg-purple-600 text-white font-mono font-bold">
+                                    Voucher Emitido: {{ app.donation.voucher.codigo }}
+                                </span>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="p-8 text-center text-slate-400">Nenhum agendamento registrado para esta clínica.</div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

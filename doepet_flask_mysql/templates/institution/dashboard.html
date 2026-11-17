@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Clínica - DoePet{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Header da Instituição -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/60 shadow-sm">
+        <div>
+            <div class="flex items-center gap-2">
+                <h1 class="text-2xl font-bold">{{ institution.nome_fantasia }}</h1>
+                <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    {{ institution.status }}
+                </span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">CNPJ: {{ institution.cnpj }} • CRMV-Resp: {{ institution.crmv_responsavel }} • {{ institution.cidade }}/{{ institution.estado }}</p>
+        </div>
+
+        <div class="flex flex-wrap gap-2">
+            <a href="{{ url_for('institution.alertas') }}" class="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow-md transition flex items-center gap-1.5">
+                <span>🚨</span> Novo Alerta de Urgência
+            </a>
+            <a href="{{ url_for('institution.estoque') }}" class="px-4 py-2 rounded-xl border border-slate-300 dark:border-slate-700 font-semibold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                Gerenciar Estoque
+            </a>
+        </div>
+    </div>
+
+    <!-- Indicadores Chave (Métricas Executivas Seção 1.3) -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+            <span class="text-xs text-slate-500">Volume Físico em Estoque</span>
+            <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1 block">{{ total_volume }} mL</span>
+            <div class="mt-2 flex gap-2 text-[11px] text-slate-500 border-t border-slate-200 dark:border-slate-700/50 pt-2">
+                <span>🐕 Cães: <strong class="text-slate-900 dark:text-slate-100">{{ canino_volume }} mL</strong></span>
+                <span>•</span>
+                <span>🐈 Gatos: <strong class="text-slate-900 dark:text-slate-100">{{ felino_volume }} mL</strong></span>
+            </div>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+            <span class="text-xs text-slate-500">Alertas Ativos</span>
+            <span class="text-2xl font-black text-red-600 dark:text-red-400 mt-1 block">{{ alertas_ativos }}</span>
+            <span class="text-[11px] text-slate-400">Demandas abertas</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+            <span class="text-xs text-slate-500">Agendamentos Hoje</span>
+            <span class="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1 block">{{ agendamentos_hoje }}</span>
+            <span class="text-[11px] text-slate-400">Capacidade: {{ institution.capacidade_diaria }}/dia</span>
+        </div>
+        <div class="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40">
+            <span class="text-xs text-slate-500">Doações Realizadas</span>
+            <span class="text-2xl font-black text-purple-600 dark:text-purple-400 mt-1 block">{{ doacoes_mes }}</span>
+            <span class="text-[11px] text-slate-400">Com voucher emitido</span>
+        </div>
+    </div>
+
+    <!-- Status do Estoque de Sangue -->
+    <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+        <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold">🩸 Níveis de Hemocomponentes em Estoque</h2>
+            <a href="{{ url_for('institution.estoque') }}" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold hover:underline">Ver Detalhes →</a>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {% for est in estoques %}
+                <div class="p-4 rounded-2xl border {{ 'border-red-500/40 bg-red-500/5' if est.volume_ml < est.volume_minimo_alerta else 'border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50' }} space-y-2">
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-bold px-2 py-0.5 rounded-full {{ 'bg-red-500 text-white' if est.volume_ml < est.volume_minimo_alerta else 'bg-slate-200 dark:bg-slate-800' }}">
+                            {{ est.especie }}
+                        </span>
+                        <span class="text-xs font-semibold text-slate-400">{{ est.tipo_sanguineo }}</span>
+                    </div>
+                    <div class="text-2xl font-black {{ 'text-red-600 dark:text-red-400' if est.volume_ml < est.volume_minimo_alerta else 'text-emerald-600 dark:text-emerald-400' }}">
+                        {{ est.volume_ml }} <span class="text-xs font-normal text-slate-500">mL</span>
+                    </div>
+                    <div class="text-[11px] text-slate-400">
+                        Nível de Alerta: {{ est.volume_minimo_alerta }} mL
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Próximos Agendamentos e Validação Rápida de Voucher -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Lista de Agendamentos -->
+        <div class="md:col-span-2 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+            <h2 class="text-lg font-bold">📅 Próximos Agendamentos para Triagem</h2>
+            <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% for app in proximos_agendamentos %}
+                    <div class="py-3 flex items-center justify-between text-sm">
+                        <div>
+                            <span class="font-bold text-slate-900 dark:text-slate-100">{{ app.pet.nome }} ({{ app.pet.especie }})</span>
+                            <p class="text-xs text-slate-500">Tutor: {{ app.tutor.nome }} • Data: {{ app.data_hora.strftime('%d/%m/%Y %H:%M') }}</p>
+                        </div>
+                        <a href="{{ url_for('institution.agendamentos') }}" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">
+                            Iniciar Triagem
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-xs text-slate-500 py-4">Nenhum agendamento pendente no momento.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Validação de Voucher (US10 / RN11 / RN12) -->
+        <div class="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/40 space-y-4">
+            <h2 class="text-base font-bold flex items-center gap-1.5">
+                <span>🎟️</span> Resgatar Voucher de Tutor
+            </h2>
+            <p class="text-xs text-slate-500">Validação instantânea de vouchers gerados pós-doação</p>
+
+            <form method="POST" action="{{ url_for('audit.resgatar_voucher') }}" class="space-y-3">
+                <input type="text" name="codigo" required placeholder="DOEPET-XXXXXXXX"
+                       class="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm uppercase font-mono">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-md transition">
+                    Validar & Resgatar Benefício
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

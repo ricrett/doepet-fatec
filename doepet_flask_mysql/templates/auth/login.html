@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Entrar no DoePet{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto my-8 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80 shadow-xl space-y-6">
+    <div class="text-center space-y-2">
+        <span class="text-3xl">🔐</span>
+        <h1 class="text-2xl font-bold">Acesse sua Conta</h1>
+        <p class="text-xs text-slate-500">Clínicas, Tutores de Animais e Administradores</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('auth.login') }}" class="space-y-4">
+        <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider mb-1">E-mail, CPF ou CNPJ</label>
+            <input type="text" name="email" required placeholder="seu.email@exemplo.com ou documento"
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+
+        <div>
+            <div class="flex items-center justify-between mb-1">
+                <label class="text-xs font-semibold uppercase tracking-wider">Senha</label>
+                <a href="{{ url_for('auth.forgot_password') }}" class="text-xs text-emerald-600 dark:text-emerald-400 hover:underline">
+                    Esqueci minha senha
+                </a>
+            </div>
+            <div class="relative">
+                <input type="password" id="loginPasswordInput" name="password" required placeholder="••••••••"
+                       class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-transparent text-sm focus:ring-2 focus:ring-emerald-500 outline-none">
+                <button type="button" onclick="const p = document.getElementById('loginPasswordInput'); p.type = (p.type === 'password' ? 'text' : 'password');"
+                        class="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600">
+                    👁️
+                </button>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs">
+            <label class="flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" name="remember_me" class="rounded text-emerald-600">
+                <span class="text-slate-600 dark:text-slate-400">Lembrar de mim</span>
+            </label>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-md transition">
+            Entrar no DoePet
+        </button>
+    </form>
+
+    <!-- Social Login Buttons -->
+    <div class="space-y-3 pt-2">
+        <div class="relative flex items-center justify-center">
+            <div class="border-t border-slate-200 dark:border-slate-700 w-full"></div>
+            <span class="bg-white dark:bg-slate-800 px-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">Ou entre com</span>
+            <div class="border-t border-slate-200 dark:border-slate-700 w-full"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <button type="button" class="flex items-center justify-center gap-2 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                <span>Google</span>
+            </button>
+            <button type="button" class="flex items-center justify-center gap-2 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition">
+                <span>Apple</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="pt-4 border-t border-slate-200 dark:border-slate-700 text-center text-xs space-y-2">
+        <p class="text-slate-500">Ainda não tem conta?</p>
+        <div class="flex justify-center gap-4">
+            <a href="{{ url_for('auth.register_tutor') }}" class="font-bold text-emerald-600 dark:text-emerald-400 hover:underline">
+                Sou Tutor de Pet
+            </a>
+            <span>•</span>
+            <a href="{{ url_for('auth.register_institution') }}" class="font-bold text-blue-600 dark:text-blue-400 hover:underline">
+                Sou Clínica Veterinária
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

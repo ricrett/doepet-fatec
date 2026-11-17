@@ -1,0 +1,8 @@
+{
+  "name": "Remix Remix Remix DoePet - Plataforma de Doação de Sangue Animal",
+  "description": "Plataforma digital para gestão e mobilização de doadores de sangue animal conectando clínicas veterinárias, tutores e animais doadores.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

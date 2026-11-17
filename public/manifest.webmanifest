@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "DoePet - Plataforma de Doação de Sangue Animal",
+  "short_name": "DoePet",
+  "description": "Rede solidária de hemoterapia animal conectando clínicas veterinárias, tutores e pets doadores.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#059669",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
