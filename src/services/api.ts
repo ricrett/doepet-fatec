@@ -16,13 +16,34 @@ import type {
   Voucher,
 } from '../types';
 
+import { staticApi } from './staticApiFallback';
+
 // DT-04: Access token (RS256, 15m TTL) kept strictly in memory — NEVER in localStorage
 let inMemoryAccessToken: string | null = null;
 let refreshPromise: Promise<string | null> | null = null;
+let staticFallbackActive = false;
 
 const API_BASE = ((import.meta as { env?: Record<string, string | undefined> }).env?.VITE_API_BASE_URL || '')
   .trim()
   .replace(/\/+$/, '');
+
+class StaticBackendUnavailableError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'StaticBackendUnavailableError';
+  }
+}
+
+function isStaticHostResponse(status: number, contentType: string): boolean {
+  if (API_BASE) return false;
+  const isJson = contentType.toLowerCase().includes('application/json');
+  if (isJson) return false;
+  return status === 404 || status === 405 || status === 501 || status === 0 || (status >= 200 && status < 300);
+}
+
+export function isStaticModeActive(): boolean {
+  return staticFallbackActive;
+}
 
 export function resolveApiUrl(path: string): string {
   if (/^https?:\/\//i.test(path)) return path;
@@ -70,7 +91,30 @@ export interface BootstrapResponse {
   activeInstitution?: Institution;
 }
 
+async function withStaticFallback<T>(
+  remoteFn: () => Promise<T>,
+  staticFn: () => Promise<T>
+): Promise<T> {
+  if (staticFallbackActive) {
+    return staticFn();
+  }
+  try {
+    return await remoteFn();
+  } catch (err) {
+    if (err instanceof StaticBackendUnavailableError) {
+      staticFallbackActive = true;
+      return staticFn();
+    }
+    throw err;
+  }
+}
+
 export async function restoreSession(): Promise<ApiAuthResponse | null> {
+  if (staticFallbackActive) {
+    const staticSession = await staticApi.restoreSession();
+    inMemoryAccessToken = staticSession?.accessToken || null;
+    return staticSession;
+  }
   try {
     const resp = await fetch(resolveApiUrl('/api/v1/auth/session'), {
       method: 'GET',
@@ -80,6 +124,12 @@ export async function restoreSession(): Promise<ApiAuthResponse | null> {
       },
     });
     const contentType = resp.headers.get('content-type') || '';
+    if (isStaticHostResponse(resp.status, contentType)) {
+      staticFallbackActive = true;
+      const staticSession = await staticApi.restoreSession();
+      inMemoryAccessToken = staticSession?.accessToken || null;
+      return staticSession;
+    }
     if (!resp.ok || !contentType.includes('application/json')) {
       inMemoryAccessToken = null;
       return null;
@@ -92,12 +142,23 @@ export async function restoreSession(): Promise<ApiAuthResponse | null> {
     inMemoryAccessToken = data.accessToken;
     return data as ApiAuthResponse;
   } catch {
+    if (!API_BASE) {
+      staticFallbackActive = true;
+      const staticSession = await staticApi.restoreSession();
+      inMemoryAccessToken = staticSession?.accessToken || null;
+      return staticSession;
+    }
     inMemoryAccessToken = null;
     return null;
   }
 }
 
 export async function refreshSessionToken(): Promise<ApiAuthResponse | null> {
+  if (staticFallbackActive) {
+    const staticSession = await staticApi.restoreSession();
+    inMemoryAccessToken = staticSession?.accessToken || null;
+    return staticSession;
+  }
   if (!refreshPromise) {
     refreshPromise = (async () => {
       try {
@@ -109,6 +170,12 @@ export async function refreshSessionToken(): Promise<ApiAuthResponse | null> {
           },
         });
         const contentType = resp.headers.get('content-type') || '';
+        if (isStaticHostResponse(resp.status, contentType)) {
+          staticFallbackActive = true;
+          const staticSession = await staticApi.restoreSession();
+          inMemoryAccessToken = staticSession?.accessToken || null;
+          return staticSession ? JSON.stringify(staticSession) : null;
+        }
         if (!resp.ok || !contentType.includes('application/json')) {
           inMemoryAccessToken = null;
           return null;
@@ -117,6 +184,12 @@ export async function refreshSessionToken(): Promise<ApiAuthResponse | null> {
         inMemoryAccessToken = data.accessToken;
         return JSON.stringify(data);
       } catch {
+        if (!API_BASE) {
+          staticFallbackActive = true;
+          const staticSession = await staticApi.restoreSession();
+          inMemoryAccessToken = staticSession?.accessToken || null;
+          return staticSession ? JSON.stringify(staticSession) : null;
+        }
         inMemoryAccessToken = null;
         return null;
       } finally {
@@ -153,11 +226,19 @@ async function apiRequest<T>(
   };
 
   const targetUrl = resolveApiUrl(path);
-  let resp = await fetch(targetUrl, {
-    ...fetchOptions,
-    credentials: 'include',
-    headers: buildHeaders(),
-  });
+  let resp: Response;
+  try {
+    resp = await fetch(targetUrl, {
+      ...fetchOptions,
+      credentials: 'include',
+      headers: buildHeaders(),
+    });
+  } catch (err) {
+    if (!API_BASE) {
+      throw new StaticBackendUnavailableError('API /api/v1 indisponível neste servidor.');
+    }
+    throw err;
+  }
 
   if (resp.status === 401 && !skipAuthRefresh) {
     const refreshed = await refreshSessionToken();
@@ -171,6 +252,10 @@ async function apiRequest<T>(
   }
 
   const contentType = resp.headers.get('content-type') || '';
+  if (isStaticHostResponse(resp.status, contentType)) {
+    throw new StaticBackendUnavailableError(`API /api/v1 indisponível (HTTP ${resp.status}).`);
+  }
+
   if (!contentType.includes('application/json')) {
     throw new Error(
       `API /api/v1 indisponível neste servidor (HTTP ${resp.status}). Publique com o servidor Node (npm start) ou configure VITE_API_BASE_URL.`
@@ -193,11 +278,15 @@ export const apiClient = {
     identifier: string;
     password: string;
   }): Promise<ApiAuthResponse> => {
-    const res = await apiRequest<ApiAuthResponse>('/api/v1/auth/login', {
-      method: 'POST',
-      body: JSON.stringify(params),
-      skipAuthRefresh: true,
-    });
+    const res = await withStaticFallback(
+      () =>
+        apiRequest<ApiAuthResponse>('/api/v1/auth/login', {
+          method: 'POST',
+          body: JSON.stringify(params),
+          skipAuthRefresh: true,
+        }),
+      () => staticApi.login(params)
+    );
     inMemoryAccessToken = res.accessToken;
     return res;
   },
@@ -207,11 +296,15 @@ export const apiClient = {
     password: string,
     email?: string
   ): Promise<ApiAuthResponse> => {
-    const res = await apiRequest<ApiAuthResponse>('/api/v1/auth/register/tutor', {
-      method: 'POST',
-      body: JSON.stringify({ tutor, password, email }),
-      skipAuthRefresh: true,
-    });
+    const res = await withStaticFallback(
+      () =>
+        apiRequest<ApiAuthResponse>('/api/v1/auth/register/tutor', {
+          method: 'POST',
+          body: JSON.stringify({ tutor, password, email }),
+          skipAuthRefresh: true,
+        }),
+      () => staticApi.registerTutor(tutor, password, email)
+    );
     inMemoryAccessToken = res.accessToken;
     return res;
   },
@@ -220,31 +313,47 @@ export const apiClient = {
     clinic: Partial<Institution>,
     password: string
   ): Promise<ApiAuthResponse> => {
-    const res = await apiRequest<ApiAuthResponse>('/api/v1/auth/register/clinic', {
-      method: 'POST',
-      body: JSON.stringify({ clinic, password }),
-      skipAuthRefresh: true,
-    });
+    const res = await withStaticFallback(
+      () =>
+        apiRequest<ApiAuthResponse>('/api/v1/auth/register/clinic', {
+          method: 'POST',
+          body: JSON.stringify({ clinic, password }),
+          skipAuthRefresh: true,
+        }),
+      () => staticApi.registerClinic(clinic, password)
+    );
     inMemoryAccessToken = res.accessToken;
     return res;
   },
 
   logout: async (): Promise<void> => {
     try {
-      await apiRequest('/api/v1/auth/logout', { method: 'POST', skipAuthRefresh: true });
+      await withStaticFallback(
+        () => apiRequest('/api/v1/auth/logout', { method: 'POST', skipAuthRefresh: true }),
+        () => staticApi.logout()
+      );
     } finally {
+      await staticApi.logout();
       inMemoryAccessToken = null;
     }
   },
 
   forgotPassword: (email: string) =>
-    apiRequest<{ success: boolean; message: string }>('/api/v1/auth/forgot-password', {
-      method: 'POST',
-      body: JSON.stringify({ email }),
-      skipAuthRefresh: true,
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ success: boolean; message: string }>('/api/v1/auth/forgot-password', {
+          method: 'POST',
+          body: JSON.stringify({ email }),
+          skipAuthRefresh: true,
+        }),
+      () => staticApi.forgotPassword(email)
+    ),
 
-  bootstrap: () => apiRequest<BootstrapResponse>('/api/v1/bootstrap'),
+  bootstrap: () =>
+    withStaticFallback(
+      () => apiRequest<BootstrapResponse>('/api/v1/bootstrap'),
+      () => staticApi.bootstrap()
+    ),
 
   addMovement: (params: {
     inventoryId: number;
@@ -254,26 +363,34 @@ export const apiClient = {
     dataColeta?: string;
     targetBagId?: number;
   }) =>
-    apiRequest<{
-      success: boolean;
-      inventoryItem: BloodInventoryItem;
-      movement: BloodInventoryMovement;
-      createdBag?: BloodBag;
-      updatedBag?: BloodBag;
-    }>('/api/v1/inventory/movements', {
-      method: 'POST',
-      body: JSON.stringify(params),
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{
+          success: boolean;
+          inventoryItem: BloodInventoryItem;
+          movement: BloodInventoryMovement;
+          createdBag?: BloodBag;
+          updatedBag?: BloodBag;
+        }>('/api/v1/inventory/movements', {
+          method: 'POST',
+          body: JSON.stringify(params),
+        }),
+      () => staticApi.addMovement(params)
+    ),
 
   discardBag: (bagId: number) =>
-    apiRequest<{
-      success: boolean;
-      inventoryItem: BloodInventoryItem;
-      movement: BloodInventoryMovement;
-      updatedBag?: BloodBag;
-    }>(`/api/v1/blood-bags/${bagId}/discard`, {
-      method: 'POST',
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{
+          success: boolean;
+          inventoryItem: BloodInventoryItem;
+          movement: BloodInventoryMovement;
+          updatedBag?: BloodBag;
+        }>(`/api/v1/blood-bags/${bagId}/discard`, {
+          method: 'POST',
+        }),
+      () => staticApi.discardBag(bagId)
+    ),
 
   createNeed: (params: {
     especie: Especie;
@@ -282,25 +399,37 @@ export const apiClient = {
     urgencia: UrgenciaLevel;
     descricao: string;
   }) =>
-    apiRequest<{
-      need: BloodNeed;
-      asyncDispatch: { messageId: string; status: string };
-    }>('/api/v1/needs', {
-      method: 'POST',
-      body: JSON.stringify(params),
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{
+          need: BloodNeed;
+          asyncDispatch: { messageId: string; status: string };
+        }>('/api/v1/needs', {
+          method: 'POST',
+          body: JSON.stringify(params),
+        }),
+      () => staticApi.createNeed(params)
+    ),
 
   expressInterest: (needId: number, petId: number) =>
-    apiRequest<{ interest: DonorInterest }>(`/api/v1/needs/${needId}/interest`, {
-      method: 'POST',
-      body: JSON.stringify({ petId }),
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ interest: DonorInterest }>(`/api/v1/needs/${needId}/interest`, {
+          method: 'POST',
+          body: JSON.stringify({ petId }),
+        }),
+      () => staticApi.expressInterest(needId, petId)
+    ),
 
   scheduleInterest: (interestId: number, slotHora: string) =>
-    apiRequest<{ appointment: Appointment }>('/api/v1/appointments/schedule', {
-      method: 'POST',
-      body: JSON.stringify({ interestId, slotHora }),
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ appointment: Appointment }>('/api/v1/appointments/schedule', {
+          method: 'POST',
+          body: JSON.stringify({ interestId, slotHora }),
+        }),
+      () => staticApi.scheduleInterest(interestId, slotHora)
+    ),
 
   confirmDonation: (
     appointmentId: number,
@@ -312,35 +441,51 @@ export const apiClient = {
       tipoConfirmado: string;
     }
   ) =>
-    apiRequest<{ success: boolean; voucher: Voucher; appointment: Appointment }>(
-      `/api/v1/appointments/${appointmentId}/confirm-donation`,
-      {
-        method: 'POST',
-        body: JSON.stringify(params),
-        idempotencyKey: `confirm-donation-${appointmentId}-${params.veterinarioCrmv}`,
-      }
+    withStaticFallback(
+      () =>
+        apiRequest<{ success: boolean; voucher: Voucher; appointment: Appointment }>(
+          `/api/v1/appointments/${appointmentId}/confirm-donation`,
+          {
+            method: 'POST',
+            body: JSON.stringify(params),
+            idempotencyKey: `confirm-donation-${appointmentId}-${params.veterinarioCrmv}`,
+          }
+        ),
+      () => staticApi.confirmDonation(appointmentId, params)
     ),
 
   redeemVoucher: (codigo: string) =>
-    apiRequest<{ success: boolean; message: string; voucher?: Voucher }>(
-      '/api/v1/vouchers/redeem',
-      {
-        method: 'POST',
-        body: JSON.stringify({ codigo }),
-        idempotencyKey: `redeem-voucher-${codigo.trim().toUpperCase()}`,
-      }
+    withStaticFallback(
+      () =>
+        apiRequest<{ success: boolean; message: string; voucher?: Voucher }>(
+          '/api/v1/vouchers/redeem',
+          {
+            method: 'POST',
+            body: JSON.stringify({ codigo }),
+            idempotencyKey: `redeem-voucher-${codigo.trim().toUpperCase()}`,
+          }
+        ),
+      () => staticApi.redeemVoucher(codigo)
     ),
 
   registerPet: (petData: Omit<Pet, 'id' | 'tutorId' | 'statusElegibilidade'>) =>
-    apiRequest<{ pet: Pet }>('/api/v1/pets', {
-      method: 'POST',
-      body: JSON.stringify(petData),
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ pet: Pet }>('/api/v1/pets', {
+          method: 'POST',
+          body: JSON.stringify(petData),
+        }),
+      () => staticApi.registerPet(petData)
+    ),
 
   deletePet: (petId: number) =>
-    apiRequest<{ success: boolean }>(`/api/v1/pets/${petId}`, {
-      method: 'DELETE',
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ success: boolean }>(`/api/v1/pets/${petId}`, {
+          method: 'DELETE',
+        }),
+      () => staticApi.deletePet(petId)
+    ),
 
   addEmployee: (params: {
     nome: string;
@@ -349,48 +494,92 @@ export const apiClient = {
     crmv?: string;
     email?: string;
   }) =>
-    apiRequest<{ employee: InstitutionEmployee }>('/api/v1/employees', {
-      method: 'POST',
-      body: JSON.stringify(params),
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ employee: InstitutionEmployee }>('/api/v1/employees', {
+          method: 'POST',
+          body: JSON.stringify(params),
+        }),
+      () => staticApi.addEmployee(params)
+    ),
 
   updateEmployee: (
     employeeId: number,
     data: Partial<Omit<InstitutionEmployee, 'id' | 'institutionId'>>
   ) =>
-    apiRequest<{ success: boolean; employee: InstitutionEmployee }>(
-      `/api/v1/employees/${employeeId}`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify(data),
-      }
+    withStaticFallback(
+      () =>
+        apiRequest<{ success: boolean; employee: InstitutionEmployee }>(
+          `/api/v1/employees/${employeeId}`,
+          {
+            method: 'PATCH',
+            body: JSON.stringify(data),
+          }
+        ),
+      () => staticApi.updateEmployee(employeeId, data)
     ),
 
   removeEmployee: (employeeId: number) =>
-    apiRequest<{ success: boolean }>(`/api/v1/employees/${employeeId}`, {
-      method: 'DELETE',
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ success: boolean }>(`/api/v1/employees/${employeeId}`, {
+          method: 'DELETE',
+        }),
+      () => staticApi.removeEmployee(employeeId)
+    ),
 
-  exportLgpd: () => apiRequest<unknown>('/api/v1/tutor/export-lgpd'),
+  exportLgpd: () =>
+    withStaticFallback(
+      () => apiRequest<unknown>('/api/v1/tutor/export-lgpd'),
+      () => staticApi.exportLgpd()
+    ),
 
   getVapidPublicKey: () =>
-    apiRequest<{ publicKey: string; source: string }>('/api/v1/push/vapid-public-key', {
-      skipAuthRefresh: true,
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ publicKey: string; source: string }>('/api/v1/push/vapid-public-key', {
+          skipAuthRefresh: true,
+        }),
+      () => staticApi.getVapidPublicKey()
+    ),
 
   subscribePush: (subscription: PushSubscriptionJSON) =>
-    apiRequest<{ subscription: unknown }>('/api/v1/push/subscribe', {
-      method: 'POST',
-      body: JSON.stringify({ subscription }),
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ subscription: unknown }>('/api/v1/push/subscribe', {
+          method: 'POST',
+          body: JSON.stringify({ subscription }),
+        }),
+      () => staticApi.subscribePush(subscription)
+    ),
 
   sendTestPush: () =>
-    apiRequest<{ dispatched: boolean; subscriptionCount: number }>('/api/v1/push/test', {
-      method: 'POST',
-    }),
+    withStaticFallback(
+      () =>
+        apiRequest<{ dispatched: boolean; subscriptionCount: number }>('/api/v1/push/test', {
+          method: 'POST',
+        }),
+      () => staticApi.sendTestPush()
+    ),
 
-  getHealth: () => apiRequest<Record<string, unknown>>('/api/v1/health', { skipAuthRefresh: true }),
-  getTelemetry: () => apiRequest<Record<string, unknown>>('/api/v1/observability/telemetry'),
-  getQueueMetrics: () => apiRequest<Record<string, unknown>>('/api/v1/messaging/queue'),
-  replayDlq: () => apiRequest<{ replayed: number }>('/api/v1/messaging/retry-dlq', { method: 'POST' }),
+  getHealth: () =>
+    withStaticFallback(
+      () => apiRequest<Record<string, unknown>>('/api/v1/health', { skipAuthRefresh: true }),
+      () => staticApi.getHealth()
+    ),
+  getTelemetry: () =>
+    withStaticFallback(
+      () => apiRequest<Record<string, unknown>>('/api/v1/observability/telemetry'),
+      () => staticApi.getTelemetry()
+    ),
+  getQueueMetrics: () =>
+    withStaticFallback(
+      () => apiRequest<Record<string, unknown>>('/api/v1/messaging/queue'),
+      () => staticApi.getQueueMetrics()
+    ),
+  replayDlq: () =>
+    withStaticFallback(
+      () => apiRequest<{ replayed: number }>('/api/v1/messaging/retry-dlq', { method: 'POST' }),
+      () => staticApi.replayDlq()
+    ),
 };

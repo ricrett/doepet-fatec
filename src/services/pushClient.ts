@@ -1,4 +1,4 @@
-import { apiClient, getAccessToken, resolveApiUrl } from './api';
+import { apiClient, getAccessToken, isStaticModeActive, resolveApiUrl } from './api';
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array<ArrayBuffer> {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -58,6 +58,14 @@ export async function subscribeToWebPush(): Promise<{
       let subscription = await registration.pushManager.getSubscription();
       if (!subscription) {
         const { publicKey } = await apiClient.getVapidPublicKey();
+        if (!publicKey) {
+          return {
+            supported: true,
+            permission,
+            subscribed: true,
+            reason: 'Notificações locais do navegador ativas (modo estático).',
+          };
+        }
         subscription = await registration.pushManager.subscribe({
           userVisibleOnly: true,
           applicationServerKey: urlBase64ToUint8Array(publicKey),
@@ -81,6 +89,9 @@ export async function subscribeToWebPush(): Promise<{
 export function connectNotificationStream(
   onPushMessage: (payload: { title: string; body: string; needId?: number }) => void
 ): () => void {
+  if (isStaticModeActive()) {
+    return () => {};
+  }
   const token = getAccessToken();
   if (!token || typeof EventSource === 'undefined') {
     return () => {};
