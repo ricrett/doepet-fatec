@@ -21,3 +21,6 @@ opentelemetry-sdk==1.25.0
 opentelemetry-exporter-otlp==1.25.0
 opentelemetry-instrumentation-flask==0.46b0
 opentelemetry-instrumentation-sqlalchemy==0.46b0
+SQLAlchemy>=2.0.30,<2.1
+greenlet>=3.0.3
+setuptools<81

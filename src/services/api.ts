@@ -190,10 +190,8 @@ async function apiRequest<T>(
 
 export const apiClient = {
   login: async (params: {
-    identifier?: string;
-    password?: string;
-    demoRole?: 'TUTOR' | 'INSTITUTION_ADMIN';
-    socialProvider?: 'Google' | 'Apple';
+    identifier: string;
+    password: string;
   }): Promise<ApiAuthResponse> => {
     const res = await apiRequest<ApiAuthResponse>('/api/v1/auth/login', {
       method: 'POST',

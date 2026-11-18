@@ -99,7 +99,29 @@ def test_health_and_correlation_id(client):
     assert res.headers.get('X-Correlation-ID') == 'corr-health-001'
 
 
+def _login_res(client, email: str, password: str = 'doepet123'):
+    return client.post('/api/v1/auth/login', json={'identifier': email, 'password': password})
+
+
+def _clinic_token(client) -> str:
+    res = _login_res(client, 'urgencias@hemovetcentral.com.br', 'doepet123')
+    assert res.status_code == 200
+    return res.get_json()['token']
+
+
+def _tutor_token(client) -> str:
+    res = _login_res(client, 'ricardo.santos@doepet.com.br', 'doepet123')
+    assert res.status_code == 200
+    return res.get_json()['token']
+
+
 def test_auth_login_and_rbac_isolation(client):
+    demo_disabled = client.post('/api/v1/auth/demo-login', json={'role': 'TUTOR'})
+    assert demo_disabled.status_code == 404
+
+    unregistered = client.post('/api/v1/auth/login', json={'identifier': 'naoexiste@doepet.com.br', 'password': 'doepet123'})
+    assert unregistered.status_code == 401
+
     bad = client.post('/api/v1/auth/login', json={'identifier': 'ricardo.santos@doepet.com.br', 'password': 'wrong'})
     assert bad.status_code == 401
 
@@ -121,9 +143,7 @@ def test_auth_login_and_rbac_isolation(client):
 
 
 def test_rn04_negative_stock_block_and_40_day_bag_creation(client):
-    login_res = client.post('/api/v1/auth/demo-login', json={'role': 'INSTITUTION_ADMIN'})
-    assert login_res.status_code == 200
-    token = login_res.get_json()['token']
+    token = _clinic_token(client)
 
     # Inv 1 tem 450mL -> tentar retirar 900mL deve ser bloqueado (RN04)
     neg_res = client.post(
@@ -154,7 +174,7 @@ def test_rn04_negative_stock_block_and_40_day_bag_creation(client):
 
 
 def test_rn15_hematocrit_check_confirm_donation_and_rn12_voucher(client):
-    clinic_token = client.post('/api/v1/auth/demo-login', json={'role': 'INSTITUTION_ADMIN'}).get_json()['token']
+    clinic_token = _clinic_token(client)
 
     # Hematócrito 35.0 (< 37.0) deve bloquear doação (RN15)
     fail_res = client.post(
@@ -199,7 +219,7 @@ def test_rn15_hematocrit_check_confirm_donation_and_rn12_voucher(client):
 
 
 def test_last_active_admin_protection_and_lgpd_export(client):
-    clinic_token = client.post('/api/v1/auth/demo-login', json={'role': 'INSTITUTION_ADMIN'}).get_json()['token']
+    clinic_token = _clinic_token(client)
 
     # Admin ID 1 é a única admin ativa da Clínica 1 -> tentar remover ou desativar deve falhar
     del_admin = client.delete('/api/v1/employees/1', headers=_auth_header(clinic_token))
@@ -208,7 +228,7 @@ def test_last_active_admin_protection_and_lgpd_export(client):
     assert deact_admin.status_code == 400
 
     # Exportação LGPD do Tutor
-    tutor_token = client.post('/api/v1/auth/demo-login', json={'role': 'TUTOR'}).get_json()['token']
+    tutor_token = _tutor_token(client)
     export_res = client.get('/api/v1/tutor/export-lgpd', headers=_auth_header(tutor_token))
     assert export_res.status_code == 200
     assert export_res.mimetype == 'application/json'
@@ -254,7 +274,7 @@ def _extract_cookies_from_response(res) -> dict[str, dict]:
 
 
 def test_dt04_httponly_cookies_and_double_submit_csrf(client):
-    login_res = client.post('/api/v1/auth/demo-login', json={'role': 'INSTITUTION_ADMIN'})
+    login_res = _login_res(client, 'urgencias@hemovetcentral.com.br', 'doepet123')
     assert login_res.status_code == 200
     cookies = _extract_cookies_from_response(login_res)
 
@@ -308,7 +328,7 @@ def test_dt04_httponly_cookies_and_double_submit_csrf(client):
 
 
 def test_dt04_refresh_rotation_and_reuse_attack_detection(client):
-    login_res = client.post('/api/v1/auth/demo-login', json={'role': 'TUTOR'})
+    login_res = _login_res(client, 'ricardo.santos@doepet.com.br', 'doepet123')
     assert login_res.status_code == 200
     cookies1 = _extract_cookies_from_response(login_res)
     old_refresh = cookies1['doepet_refresh_token']['value']
@@ -363,7 +383,8 @@ def test_dt04_refresh_rotation_and_reuse_attack_detection(client):
 
 
 def test_dt04_sessions_logout_all_and_key_rotation(client):
-    login_res = client.post('/api/v1/auth/demo-login', json={'role': 'TUTOR'})
+    login_res = _login_res(client, 'ricardo.santos@doepet.com.br', 'doepet123')
+    assert login_res.status_code == 200
     cookies = _extract_cookies_from_response(login_res)
     csrf_token = cookies['doepet_csrf_token']['value']
 
@@ -401,7 +422,7 @@ def test_dt04_sessions_logout_all_and_key_rotation(client):
 
 
 def test_dt03_async_outbox_idempotency_and_dead_letter(client):
-    clinic_token = client.post('/api/v1/auth/demo-login', json={'role': 'INSTITUTION_ADMIN'}).get_json()['token']
+    clinic_token = _clinic_token(client)
 
     create_res = client.post(
         '/api/v1/needs',
@@ -488,7 +509,7 @@ def test_dt03_async_outbox_idempotency_and_dead_letter(client):
 
 def test_dt05_opentelemetry_distributed_tracing_and_correlation(client):
     clear_recorded_traces()
-    clinic_token = client.post('/api/v1/auth/demo-login', json={'role': 'INSTITUTION_ADMIN'}).get_json()['token']
+    clinic_token = _clinic_token(client)
 
     trace_id_in = 'a1b2c3d4e5f60718293a4b5c6d7e8f90'
     parent_span_in = '1122334455667788'
@@ -546,7 +567,7 @@ def test_dt06_vapid_web_push_and_fcm_end_to_end(client):
     assert len(raw_pub) == 65 and raw_pub[0] == 4
 
     # 2. Tutor registra assinatura Web Push nativa e FCM token
-    tutor_token = client.post('/api/v1/auth/demo-login', json={'role': 'TUTOR'}).get_json()['token']
+    tutor_token = _tutor_token(client)
     fake_p256dh = base64.urlsafe_b64encode(b'\x04' + os.urandom(64)).rstrip(b'=').decode('ascii')
     fake_auth = base64.urlsafe_b64encode(os.urandom(16)).rstrip(b'=').decode('ascii')
 
@@ -576,7 +597,7 @@ def test_dt06_vapid_web_push_and_fcm_end_to_end(client):
     assert sub_fcm.get_json()['subscription']['channel'] == 'FCM'
 
     # 3. Clínica cria urgência CANINA -> Worker dispara Push VAPID + FCM e marca NeedNotification DELIVERED
-    clinic_token = client.post('/api/v1/auth/demo-login', json={'role': 'INSTITUTION_ADMIN'}).get_json()['token']
+    clinic_token = _clinic_token(client)
     need_res = client.post(
         '/api/v1/needs',
         headers=_auth_header(clinic_token),

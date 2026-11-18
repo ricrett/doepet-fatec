@@ -319,123 +319,42 @@ export function toAuthenticatedUser(user: StoredUserRecord): AuthenticatedUser {
 export async function authenticateUser(params: {
   identifier?: string;
   password?: string;
-  demoRole?: 'TUTOR' | 'INSTITUTION_ADMIN';
-  socialProvider?: 'Google' | 'Apple';
 }): Promise<{ user: StoredUserRecord } | { error: string; status: number }> {
   return withLock(() => {
     const state = loadState();
 
-    if (params.demoRole) {
-      const demoEmail =
-        params.demoRole === 'TUTOR'
-          ? 'ricardo.santos@doepet.com.br'
-          : 'urgencias@hemovetcentral.com.br';
-      const user = state.users.find((u) => u.email === demoEmail);
-      if (!user) return { error: 'Usuário demo não encontrado.', status: 404 };
-      appendAudit(state, 'USER_LOGIN', 'User', String(user.id), user.id, user.role, {
-        mode: 'DEMO_QUICK_ACCESS',
-        email: user.email,
-      });
-      persistState(state);
-      return { user };
-    }
-
-    if (params.socialProvider) {
-      const email = `usuario.${params.socialProvider.toLowerCase()}@doepet.com.br`;
-      let user = state.users.find((u) => u.email === email);
-      if (!user) {
-        const tutorId = nextId(state.tutors);
-        const userId = nextId(state.users);
-        const newTutor: Tutor = {
-          id: tutorId,
-          userId,
-          nome: `Usuário ${params.socialProvider}`,
-          cpf: `999.${String(tutorId).padStart(3, '0')}.000-00`,
-          telefone: '(11) 99999-0000',
-          whatsapp: '(11) 99999-0000',
-          cidade: 'São Paulo',
-          estado: 'SP',
-          bairro: 'Centro',
-          notifPush: true,
-          lgpdAceito: true,
-          lgpdVersao: 'v1.0-2026',
-          dataAceite: new Date().toISOString(),
-        };
-        state.tutors.unshift(newTutor);
-        user = {
-          id: userId,
-          email,
-          passwordHash: hashPassword(crypto.randomBytes(16).toString('hex')),
-          role: 'TUTOR',
-          nome: newTutor.nome,
-          documento: newTutor.cpf,
-          tutorId,
-          isActive: true,
-          createdAt: new Date().toISOString(),
-        };
-        state.users.push(user);
-      }
-      appendAudit(state, 'USER_LOGIN', 'User', String(user.id), user.id, user.role, {
-        mode: `OAUTH_${params.socialProvider.toUpperCase()}`,
-        email: user.email,
-      });
-      persistState(state);
-      return { user };
-    }
-
     const idClean = (params.identifier || '').trim().toLowerCase();
+    const idDigits = idClean.replace(/\D/g, '');
     const pwd = params.password || '';
     if (!idClean || !pwd) {
       return { error: 'E-mail/documento e senha são obrigatórios.', status: 400 };
     }
 
-    const user = state.users.find(
-      (u) => u.email.toLowerCase() === idClean || u.documento.toLowerCase() === idClean
-    );
+    const user = state.users.find((u) => {
+      if (u.email.toLowerCase() === idClean || u.documento.toLowerCase() === idClean) {
+        return true;
+      }
+      if (idDigits.length >= 11 && u.documento.replace(/\D/g, '') === idDigits) {
+        return true;
+      }
+      return false;
+    });
 
-    if (user) {
-      if (!user.isActive) {
-        return { error: 'Conta desativada pelo administrador.', status: 403 };
-      }
-      if (!verifyPassword(pwd, user.passwordHash)) {
-        return { error: 'Credenciais inválidas.', status: 401 };
-      }
-      appendAudit(state, 'USER_LOGIN', 'User', String(user.id), user.id, user.role, {
-        email: user.email,
-      });
-      persistState(state);
-      return { user };
+    if (!user) {
+      return { error: 'E-mail/documento ou senha inválidos.', status: 401 };
+    }
+    if (!user.isActive) {
+      return { error: 'Conta desativada pelo administrador.', status: 403 };
+    }
+    if (!verifyPassword(pwd, user.passwordHash)) {
+      return { error: 'E-mail/documento ou senha inválidos.', status: 401 };
     }
 
-    // Preserve legacy prototype convenience: if identifier matches clinic keywords, resolve clinic; otherwise tutor demo account with verified non-empty password
-    if (
-      idClean.includes('clinic') ||
-      idClean.includes('hemo') ||
-      idClean.includes('12.345') ||
-      idClean.includes('vet')
-    ) {
-      const clinicUser = state.users.find((u) => u.role === 'INSTITUTION_ADMIN');
-      if (clinicUser) {
-        appendAudit(state, 'USER_LOGIN', 'User', String(clinicUser.id), clinicUser.id, clinicUser.role, {
-          email: clinicUser.email,
-          identifier: idClean,
-        });
-        persistState(state);
-        return { user: clinicUser };
-      }
-    }
-
-    const fallbackTutor = state.users.find((u) => u.role === 'TUTOR');
-    if (fallbackTutor && pwd.length >= 4) {
-      appendAudit(state, 'USER_LOGIN', 'User', String(fallbackTutor.id), fallbackTutor.id, fallbackTutor.role, {
-        email: fallbackTutor.email,
-        identifier: idClean,
-      });
-      persistState(state);
-      return { user: fallbackTutor };
-    }
-
-    return { error: 'E-mail ou senha inválidos.', status: 401 };
+    appendAudit(state, 'USER_LOGIN', 'User', String(user.id), user.id, user.role, {
+      email: user.email,
+    });
+    persistState(state);
+    return { user };
   });
 }
 

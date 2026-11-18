@@ -351,38 +351,29 @@ def health():
 @api_v1_bp.route('/auth/login', methods=['POST'])
 def auth_login():
     body = request.get_json(silent=True) or {}
-    identifier = str(body.get('identifier') or body.get('email') or '').strip().lower()
+    raw_identifier = str(body.get('identifier') or body.get('email') or '').strip()
+    identifier = raw_identifier.lower()
     password = str(body.get('password') or '')
 
     if not identifier or not password:
-        return jsonify({'error': 'E-mail e senha são obrigatórios.'}), 400
+        return jsonify({'error': 'E-mail/documento e senha são obrigatórios.'}), 400
 
     user = User.query.filter_by(email=identifier).first()
+    if not user:
+        tutor = Tutor.query.filter_by(cpf=raw_identifier).first()
+        if tutor:
+            user = User.query.get(tutor.user_id)
+    if not user:
+        inst = Institution.query.filter_by(cnpj=raw_identifier).first()
+        if inst:
+            user = User.query.get(inst.user_id)
+
     if not user or not user.check_password(password):
         return jsonify({'error': 'Credenciais inválidas.'}), 401
     if not user.is_active:
         return jsonify({'error': 'Conta desativada pelo administrador.'}), 403
 
     _append_audit('USER_LOGIN', 'User', str(user.id), user.id, user.role, None, {'email': user.email})
-    db.session.commit()
-    return _issue_session_response(user)
-
-
-@api_v1_bp.route('/auth/demo-login', methods=['POST'])
-def auth_demo_login():
-    body = request.get_json(silent=True) or {}
-    role = str(body.get('role') or 'TUTOR').strip().upper()
-    if role in ('INSTITUTION_ADMIN', 'CLINICA', 'CLINIC'):
-        user = User.query.filter_by(role='INSTITUTION_ADMIN').order_by(User.id.asc()).first()
-    elif role == 'INSTITUTION_EMPLOYEE':
-        user = User.query.filter_by(role='INSTITUTION_EMPLOYEE').order_by(User.id.asc()).first()
-    else:
-        user = User.query.filter_by(role='TUTOR').order_by(User.id.asc()).first()
-
-    if not user:
-        return jsonify({'error': 'Usuário demo não encontrado.'}), 404
-
-    _append_audit('DEMO_LOGIN', 'User', str(user.id), user.id, user.role, None, {'email': user.email})
     db.session.commit()
     return _issue_session_response(user)
 

@@ -32,10 +32,20 @@ def login():
         return redirect(url_for('index'))
 
     if request.method == 'POST':
-        email = request.form.get('email', '').strip().lower()
+        raw_identifier = request.form.get('email', '').strip()
+        email = raw_identifier.lower()
         password = request.form.get('password', '')
 
         user = User.query.filter_by(email=email).first()
+        if not user:
+            tutor = Tutor.query.filter_by(cpf=raw_identifier).first()
+            if tutor:
+                user = User.query.get(tutor.user_id)
+        if not user:
+            inst = Institution.query.filter_by(cnpj=raw_identifier).first()
+            if inst:
+                user = User.query.get(inst.user_id)
+
         if user and user.check_password(password):
             if not user.is_active:
                 flash('Sua conta está desativada. Entre em contato com o suporte.', 'danger')

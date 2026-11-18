@@ -133,8 +133,6 @@ export function createApiApp() {
     const result = await authenticateUser({
       identifier: req.body?.identifier,
       password: req.body?.password,
-      demoRole: req.body?.demoRole,
-      socialProvider: req.body?.socialProvider,
     });
 
     if ('error' in result) {
