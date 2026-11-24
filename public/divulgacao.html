@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DoePet — Plataforma de Hemoterapia Veterinária</title>
+    <meta
+      name="description"
+      content="Plataforma solidária que conecta clínicas veterinárias e bancos de sangue a tutores de cães e gatos doadores em tempo real."
+    />
+    <meta property="og:title" content="DoePet — Plataforma de Doação de Sangue Animal" />
+    <meta
+      property="og:description"
+      content="Alertas compatíveis em tempo real, controle de bolsas com validade de 40 dias, triagem clínica (CRMV) e gestão transparente."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#059669" />
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-canvas: #ffffff;
+        --bg-surface: #f8fafc;
+        --bg-subtle: #f1f5f9;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
+        --border-hairline: #e2e8f0;
+        --border-strong: #cbd5e1;
+        --emerald: #059669;
+        --emerald-dark: #047857;
+        --emerald-soft: #ecfdf5;
+        --crimson: #dc2626;
+        --crimson-soft: #fef2f2;
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+        --max-w: 1160px;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background-color: var(--bg-canvas);
+        color: var(--text-primary);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      a:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--emerald);
+        outline-offset: 3px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding-inline: 20px;
+      }
+
+      @media (min-width: 768px) {
+        .container {
+          padding-inline: 32px;
+        }
+      }
+
+      /* Top Bar Contract: 3 zones, single row, whitespace-nowrap */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--border-hairline);
+      }
+
+      .topbar-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 32px;
+        height: 64px;
+      }
+
+      .brand-wordmark {
+        font-size: 1.25rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: var(--emerald-dark);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .nav-links {
+        display: none;
+        align-items: center;
+        gap: 28px;
+      }
+
+      @media (min-width: 768px) {
+        .nav-links {
+          display: flex;
+        }
+      }
+
+      .nav-link {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding-block: 4px;
+        border-bottom: 1.5px solid transparent;
+        transition: color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .nav-link:hover {
+        color: var(--text-primary);
+        border-bottom-color: var(--emerald);
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 40px;
+        padding: 8px 18px;
+        border-radius: var(--radius-sm);
+        background-color: var(--emerald);
+        color: #ffffff;
+        font-size: 0.875rem;
+        font-weight: 600;
+        white-space: nowrap;
+        flex-shrink: 0;
+        transition: background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+          transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .btn-primary:hover {
+        background-color: var(--emerald-dark);
+        transform: translateY(-1px);
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 10px 20px;
+        border-radius: var(--radius-sm);
+        background-color: var(--bg-canvas);
+        border: 1px solid var(--border-strong);
+        color: var(--text-primary);
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        transition: border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+          background-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .btn-secondary:hover {
+        background-color: var(--bg-surface);
+        border-color: var(--text-primary);
+      }
+
+      /* Hero Split */
+      .hero {
+        padding-block: 48px 56px;
+        border-bottom: 1px solid var(--border-hairline);
+      }
+
+      @media (min-width: 1024px) {
+        .hero {
+          padding-block: 72px 80px;
+        }
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 36px;
+        align-items: stretch;
+      }
+
+      @media (min-width: 960px) {
+        .hero-grid {
+          grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.9fr);
+          gap: 48px;
+        }
+      }
+
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .meta-line {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.8125rem;
+        font-weight: 500;
+        color: var(--text-muted);
+        margin-bottom: 16px;
+      }
+
+      .meta-line .accent-text {
+        color: var(--emerald-dark);
+        font-weight: 600;
+      }
+
+      .hero-title {
+        margin: 0 0 18px;
+        font-size: clamp(2.15rem, 4vw, 3.35rem);
+        font-weight: 800;
+        line-height: 1.12;
+        letter-spacing: -0.03em;
+        color: var(--text-primary);
+        text-wrap: balance;
+        max-width: 18ch;
+      }
+
+      .hero-lead {
+        margin: 0 0 28px;
+        font-size: 1.0625rem;
+        line-height: 1.65;
+        color: var(--text-secondary);
+        max-width: 58ch;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
+      .hero-cta-lg {
+        min-height: 44px;
+        padding: 10px 22px;
+        font-size: 0.9375rem;
+      }
+
+      .hero-facts {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border-hairline);
+      }
+
+      @media (max-width: 540px) {
+        .hero-facts {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+      }
+
+      .fact-value {
+        display: block;
+        font-family: 'JetBrains Mono', monospace;
+        font-variant-numeric: tabular-nums;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .fact-label {
+        display: block;
+        font-size: 0.8125rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      /* Right Column: Interactive App Logo Card linking to GitHub Pages */
+      .logo-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 32px;
+        border-radius: var(--radius-lg);
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-hairline);
+        transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+          border-color 200ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .logo-card:hover {
+        transform: translateY(-3px);
+        border-color: var(--emerald);
+      }
+
+      .logo-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      .logo-card-arrow {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background-color: var(--bg-canvas);
+        border: 1px solid var(--border-hairline);
+        color: var(--emerald-dark);
+        transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+          background-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .logo-card:hover .logo-card-arrow {
+        background-color: var(--emerald);
+        border-color: var(--emerald);
+        color: #ffffff;
+        transform: translate(2px, -2px);
+      }
+
+      .logo-showcase {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-block: 28px;
+      }
+
+      .app-svg-logo {
+        width: 112px;
+        height: 112px;
+        border-radius: 24px;
+        box-shadow: 0 12px 28px -10px rgba(5, 150, 105, 0.32);
+        margin-bottom: 20px;
+      }
+
+      .logo-title {
+        margin: 0 0 6px;
+        font-size: 1.625rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        color: var(--text-primary);
+      }
+
+      .logo-subtitle {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-secondary);
+        max-width: 28ch;
+      }
+
+      .logo-card-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border-hairline);
+      }
+
+      .logo-url {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        color: var(--emerald-dark);
+        font-weight: 500;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .logo-cta-text {
+        font-size: 0.8125rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        white-space: nowrap;
+      }
+
+      /* Sections */
+      .section {
+        padding-block: 56px;
+        border-bottom: 1px solid var(--border-hairline);
+      }
+
+      @media (min-width: 1024px) {
+        .section {
+          padding-block: 72px;
+        }
+      }
+
+      .section-head {
+        margin-bottom: 32px;
+        max-width: 62ch;
+      }
+
+      .section-kicker {
+        margin: 0 0 8px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--emerald-dark);
+      }
+
+      .section-title {
+        margin: 0 0 10px;
+        font-size: clamp(1.5rem, 2.6vw, 2rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        color: var(--text-primary);
+      }
+
+      .section-desc {
+        margin: 0;
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+      }
+
+      /* Editorial Problem List */
+      .problem-list {
+        display: grid;
+        grid-template-columns: 1fr;
+        border-top: 1px solid var(--border-hairline);
+      }
+
+      .problem-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        padding-block: 24px;
+        border-bottom: 1px solid var(--border-hairline);
+        align-items: start;
+      }
+
+      @media (min-width: 768px) {
+        .problem-row {
+          grid-template-columns: 240px 1fr 1.1fr;
+          gap: 32px;
+        }
+      }
+
+      .problem-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--crimson);
+        margin-right: 8px;
+      }
+
+      .problem-heading {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .problem-pain,
+      .problem-fix {
+        margin: 0;
+        font-size: 0.925rem;
+        color: var(--text-secondary);
+      }
+
+      .problem-fix strong {
+        color: var(--emerald-dark);
+        font-weight: 600;
+      }
+
+      /* Asymmetric Bento Grid for Key Capabilities */
+      .bento-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      @media (min-width: 900px) {
+        .bento-grid {
+          grid-template-columns: repeat(12, minmax(0, 1fr));
+          gap: 24px;
+        }
+      }
+
+      .bento-card {
+        padding: 28px;
+        border-radius: var(--radius-md);
+        background-color: var(--bg-canvas);
+        border: 1px solid var(--border-hairline);
+      }
+
+      .bento-card.surface {
+        background-color: var(--bg-surface);
+      }
+
+      @media (min-width: 900px) {
+        .span-7 {
+          grid-column: span 7;
+        }
+        .span-5 {
+          grid-column: span 5;
+        }
+        .span-12 {
+          grid-column: span 12;
+        }
+      }
+
+      .card-kicker {
+        margin: 0 0 8px;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      .card-title {
+        margin: 0 0 12px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        color: var(--text-primary);
+      }
+
+      .clean-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+
+      .clean-list li {
+        font-size: 0.925rem;
+        color: var(--text-secondary);
+        padding-left: 16px;
+        position: relative;
+      }
+
+      .clean-list li::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0.58em;
+        width: 5px;
+        height: 5px;
+        border-radius: 999px;
+        background-color: var(--emerald);
+      }
+
+      .clean-list.crimson li::before {
+        background-color: var(--crimson);
+      }
+
+      .spec-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 20px;
+        margin-top: 8px;
+      }
+
+      .spec-item-label {
+        display: block;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .spec-item-value {
+        display: block;
+        font-size: 0.925rem;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      /* Quiet Footer */
+      .footer {
+        padding-block: 36px;
+        background-color: var(--bg-canvas);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      @media (min-width: 768px) {
+        .footer-inner {
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+      }
+
+      .footer-note {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin: 0;
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+      }
+
+      .footer-links a:hover {
+        color: var(--emerald-dark);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        .btn-primary,
+        .btn-secondary,
+        .logo-card,
+        .logo-card-arrow,
+        .nav-link {
+          transition: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a href="#topo" class="brand-wordmark">DOEPET</a>
+
+        <nav class="nav-links" aria-label="Navegação principal">
+          <a href="#problemas" class="nav-link">Problemas Resolvidos</a>
+          <a href="#modulos" class="nav-link">Pontos-Chave</a>
+          <a href="#arquitetura" class="nav-link">Tecnologia</a>
+        </nav>
+
+        <a
+          href="https://ricrett.github.io/doepet-fatec/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+        >
+          <span>Abrir Aplicação</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="topo">
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <div class="meta-line">
+              <span class="accent-text">Hemoterapia Veterinária</span>
+              <span aria-hidden="true">·</span>
+              <span>Projeto Acadêmico Fatec</span>
+              <span aria-hidden="true">·</span>
+              <span>Web Responsiva &amp; GitHub Pages</span>
+            </div>
+
+            <h1 class="hero-title">
+              Conexão direta entre bancos de sangue veterinários e tutores doadores.
+            </h1>
+
+            <p class="hero-lead">
+              O DoePet organiza o estoque hemoterápico de clínicas e mobiliza tutores de cães e gatos
+              compatíveis em tempo real, substituindo buscas manuais demoradas por alertas precisos,
+              agendamento sem filas e triagem clínica rastreável.
+            </p>
+
+            <div class="hero-actions">
+              <a
+                href="https://ricrett.github.io/doepet-fatec/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary hero-cta-lg"
+              >
+                <span>Acessar Plataforma DoePet</span>
+              </a>
+              <a href="#problemas" class="btn-secondary">
+                <span>Entender a Solução</span>
+              </a>
+            </div>
+
+            <div class="hero-facts">
+              <div>
+                <span class="fact-value">40 dias</span>
+                <span class="fact-label">Controle automático de validade por bolsa</span>
+              </div>
+              <div>
+                <span class="fact-value">&ge; 37%</span>
+                <span class="fact-label">Bloqueio de segurança para hematócrito na triagem</span>
+              </div>
+              <div>
+                <span class="fact-value">2 perfis</span>
+                <span class="fact-label">Fluxos dedicados para Clínica e Tutor</span>
+              </div>
+            </div>
+          </div>
+
+          <a
+            href="https://ricrett.github.io/doepet-fatec/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="logo-card"
+            aria-label="Abrir a aplicação DoePet no GitHub Pages"
+          >
+            <div class="logo-card-top">
+              <span>Acesso Direto · GitHub Pages</span>
+              <span class="logo-card-arrow" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M7 17L17 7" />
+                  <path d="M7 7h10v10" />
+                </svg>
+              </span>
+            </div>
+
+            <div class="logo-showcase">
+              <svg
+                class="app-svg-logo"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+                fill="none"
+                role="img"
+                aria-label="Logo oficial do DoePet"
+              >
+                <rect width="512" height="512" rx="112" fill="#059669" />
+                <path
+                  d="M256 124c-34 0-62 34-62 72 0 38 28 66 62 66s62-28 62-66c0-38-28-72-62-72z"
+                  fill="#ffffff"
+                />
+                <ellipse
+                  cx="144"
+                  cy="236"
+                  rx="36"
+                  ry="48"
+                  transform="rotate(-18 144 236)"
+                  fill="#ffffff"
+                />
+                <ellipse
+                  cx="368"
+                  cy="236"
+                  rx="36"
+                  ry="48"
+                  transform="rotate(18 368 236)"
+                  fill="#ffffff"
+                />
+                <path
+                  d="M256 266c-64 0-112 46-112 96 0 36 30 62 72 62 18 0 30-6 40-12 10 6 22 12 40 12 42 0 72-26 72-62 0-50-48-96-112-96z"
+                  fill="#ffffff"
+                />
+                <path
+                  d="M256 302c-16 24-32 42-32 58 0 18 14 32 32 32s32-14 32-32c0-16-16-34-32-58z"
+                  fill="#ef4444"
+                />
+              </svg>
+
+              <h2 class="logo-title">DOEPET</h2>
+              <p class="logo-subtitle">
+                Clique neste cartão para abrir o ambiente publicado do projeto no GitHub.
+              </p>
+            </div>
+
+            <div class="logo-card-footer">
+              <span class="logo-url">ricrett.github.io/doepet-fatec/</span>
+              <span class="logo-cta-text">Acessar &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section id="problemas" class="section">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">Por que o DoePet existe</p>
+            <h2 class="section-title">Três gargalos da hemoterapia veterinária resolvidos</h2>
+            <p class="section-desc">
+              Em cirurgias e emergências, minutos definem o prognóstico. O sistema elimina o atrito
+              operacional entre quem precisa de sangue e quem pode doar.
+            </p>
+          </div>
+
+          <div class="problem-list">
+            <article class="problem-row">
+              <div>
+                <span class="problem-num">01.</span>
+                <h3 class="problem-heading">Busca improvisada de doadores</h3>
+              </div>
+              <p class="problem-pain">
+                Clínicas perdem tempo ligando para contatos antigos ou publicando pedidos genéricos em
+                redes sociais sem saber peso, vacinação ou compatibilidade.
+              </p>
+              <p class="problem-fix">
+                <strong>Solução DoePet:</strong> filtra automaticamente cães (&ge; 25 kg) e gatos
+                (&ge; 4 kg) entre 1 e 8 anos compatíveis com a espécie e tipo sanguíneo solicitados.
+              </p>
+            </article>
+
+            <article class="problem-row">
+              <div>
+                <span class="problem-num">02.</span>
+                <h3 class="problem-heading">Perda de bolsas por validade</h3>
+              </div>
+              <p class="problem-pain">
+                Controles manuais em planilhas dificultam acompanhar o prazo de 40 dias de refrigeração
+                e o momento certo de repor a reserva mínima de cada tipo sanguíneo.
+              </p>
+              <p class="problem-fix">
+                <strong>Solução DoePet:</strong> rastreia lotes em mL com histórico de entradas/saídas,
+                alerta bolsas a vencer em até 10 dias e bloqueia lotes vencidos para descarte seguro.
+              </p>
+            </article>
+
+            <article class="problem-row">
+              <div>
+                <span class="problem-num">03.</span>
+                <h3 class="problem-heading">Triagem desconectada e sem retorno</h3>
+              </div>
+              <p class="problem-pain">
+                Tutores chegam sem orientação de jejum ou ficam sem comprovação organizada das doações
+                e benefícios oferecidos pelas instituições parceiras.
+              </p>
+              <p class="problem-fix">
+                <strong>Solução DoePet:</strong> agenda horário direto na clínica, exige CRMV e
+                hematócrito &ge; 37% antes da coleta e emite automaticamente o voucher de benefício.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="modulos" class="section">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">Estrutura funcional</p>
+            <h2 class="section-title">Pontos-chave do aplicativo por perfil</h2>
+            <p class="section-desc">
+              Cada conta acessa um painel enxuto focado apenas nas decisões necessárias para sua rotina.
+            </p>
+          </div>
+
+          <div class="bento-grid">
+            <div class="bento-card span-7">
+              <p class="card-kicker">Pessoa Jurídica · CRMV Responsável</p>
+              <h3 class="card-title">Painel da Clínica e Banco de Sangue</h3>
+              <ul class="clean-list crimson">
+                <li>Gestão visual do estoque em mL por espécie e tipo sanguíneo (DEA 1.1, A, B, AB).</li>
+                <li>Disparo de alertas urgentes (Crítica / Alta) com lista em tempo real de interessados.</li>
+                <li>Agendamento rápido na recepção e fluxo presencial de triagem médica + geração de lote.</li>
+                <li>Cadastro e controle de colaboradores da equipe veterinária e validação de vouchers.</li>
+              </ul>
+            </div>
+
+            <div class="bento-card surface span-5">
+              <p class="card-kicker">Pessoa Física · Cães e Gatos</p>
+              <h3 class="card-title">Área do Tutor Doador</h3>
+              <ul class="clean-list">
+                <li>Cálculo automático de aptidão e volume potencial de doação por animal (450 mL ou 50 mL).</li>
+                <li>Visualização apenas de chamados compatíveis e manifestação de interesse em um clique.</li>
+                <li>Carteira de agendamentos com instruções de preparo (jejum de 4h e carteira de vacinas).</li>
+                <li>Histórico de vouchers de benefício e exportação integral dos dados pessoais (LGPD).</li>
+              </ul>
+            </div>
+
+            <div id="arquitetura" class="bento-card span-12">
+              <p class="card-kicker">Resumo Técnico para Avaliação no GitHub</p>
+              <h3 class="card-title">Arquitetura, Segurança e Portabilidade</h3>
+              <div class="spec-grid">
+                <div>
+                  <span class="spec-item-label">Interface Web &amp; Mobile</span>
+                  <span class="spec-item-value">React 19, TypeScript, Tailwind CSS e PWA instalável</span>
+                </div>
+                <div>
+                  <span class="spec-item-label">Camada de API &amp; Dados</span>
+                  <span class="spec-item-value">Node.js/Express, Flask REST e PostgreSQL com Alembic</span>
+                </div>
+                <div>
+                  <span class="spec-item-label">Tempo Real &amp; Segurança</span>
+                  <span class="spec-item-value">Alertas SSE/Web Push, JWT em cookie HttpOnly e LGPD</span>
+                </div>
+                <div>
+                  <span class="spec-item-label">Qualidade &amp; Entrega</span>
+                  <span class="spec-item-value">Testes automatizados (Pytest) e deploy contínuo no GitHub</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <p class="footer-note">
+          DoePet · Projeto de Hemoterapia Veterinária (Fatec). Desenvolvido para acesso responsivo em desktop e celular.
+        </p>
+
+        <nav class="footer-links" aria-label="Links do projeto">
+          <a href="https://ricrett.github.io/doepet-fatec/" target="_blank" rel="noopener noreferrer">
+            Abrir App Publicado
+          </a>
+          <a href="#topo">Voltar ao Topo</a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>
